@@ -1,0 +1,44 @@
+# Parameter overrides applied on top of {tcp,hand_eye,kinematic}_params.yaml
+# when a calibration launch file is started with use_sim_time:=True.
+#
+# Everything here is a consequence of running against Gazebo rather than
+# hardware; none of it should be copied back into the hardware defaults.
+
+/**:
+  ros__parameters:
+    # Both collectors settle with time.sleep(), which is WALL clock even under
+    # use_sim_time. At a real-time factor below 1 the arm is therefore still
+    # moving when the sample is taken, which shows up as pose error correlated
+    # with how fast the machine happens to be - the worst kind of noise,
+    # because it looks systematic. Buying headroom here is the right fix;
+    # converting the sleep to a sim-time sleep inside a service callback risks
+    # deadlocking the collectors' MultiThreadedExecutor.
+    settle_time_sec: 2.0
+
+target_detector:
+  ros__parameters:
+    # MUST match annin_ar4_gazebo/scripts/generate_charuco_asset.py, which
+    # writes the values it actually used into models/<board>/board.yaml.
+    # A mismatch here scales every measured target pose, and the calibration
+    # still converges - to a confidently wrong answer.
+    charuco.square_length_m: 0.035
+    charuco.marker_length_m: 0.026
+    charuco.squares_x: 5
+    charuco.squares_y: 7
+
+hand_eye_collector:
+  ros__parameters:
+    # Simulated poses are free compared to real ones, and cv2.calibrateHandEye
+    # wants rotation about several distinct axes. Collecting more of them is
+    # the cheapest way to improve the result in sim.
+    num_candidate_poses: 60
+    min_samples: 25
+
+kinematic_collector:
+  ros__parameters:
+    # WP4 needs wide joint coverage to separate the per-joint corrections, and
+    # in eye_to_hand many sampled configurations point the board away from the
+    # camera and get skipped. Over-sampling candidates is how the
+    # min_joint_range_deg gate gets cleared without lowering it.
+    num_candidate_configs: 800
+    min_samples: 150

@@ -1,0 +1,167 @@
+<?xml version="1.0"?>
+<!--
+  The simulated calibration rig: camera, ChArUco board, and TCP tool, mounted
+  according to `mount_mode`. Used only by ar_gazebo.urdf.xacro.
+
+    mount_mode = eye_in_hand   camera on the wrist, board fixed in the workspace
+    mount_mode = eye_to_hand   camera fixed in the workspace, board on the wrist
+    mount_mode = none          nothing is added (the default; plain gazebo.launch.py)
+
+  The board is part of the *robot model* in both modes, even when it is
+  workspace-fixed, so that robot_state_publisher publishes its pose as a TF
+  frame. That gives the WP4 solver's `mount_offset` nuisance parameter
+  (base_T_marker or ee_T_marker) an exact ground truth for free, via one tf2
+  lookup, and keeps everything to one spawn, one resource path, one xacro
+  argument.
+
+  The workspace-fixed half of the rig hangs off `base_link`, NOT off the URDF's
+  `world` link, even though both are rigidly at the world origin (ar_gazebo's
+  base_joint origin is identity, so the poses are numerically identical).
+  Attaching to `world` gives the model a second, independent world-attached
+  root, and sdformat/gz then fail to put the model's visuals in the sensor
+  render scene at all - the camera sees the ground plane and world models but
+  the robot and the board are simply absent, with no error logged anywhere.
+  Parenting to base_link keeps the model single-rooted and renders correctly.
+
+  Board frame convention (see annin_ar4_gazebo/scripts/generate_charuco_asset.py,
+  where it is verified against OpenCV): origin at the board's top-left corner,
+  +X image right, +Y image down, +Z into the board, textured face on -Z. So the
+  link below *is* the OpenCV board frame, and `calibration_target` should
+  coincide with `charuco_board_frame_gt` when everything is correct - which is
+  exactly the check that catches a scale or mirroring error.
+-->
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+  <xacro:include filename="$(find annin_ar4_description)/urdf/sim_camera_macro.xacro"/>
+
+  <xacro:macro name="calibration_rig" params="
+    tf_prefix
+    mount_mode
+    world_link:=base_link
+    board_mesh:=package://annin_ar4_gazebo/models/charuco_5x7_35mm/charuco.obj
+    board_width:=0.175
+    board_height:=0.245
+    board_standoff:=0.12
+    board_stand_x:=0.0
+    board_stand_y:=-0.78
+    board_stand_z:=0.40
+    camera_wrist_xyz:='0 -0.07 0.02'
+    camera_wrist_rpy:='0 -1.5707963267948966 0'
+    camera_stand_xyz:='0 -0.85 0.45'
+    camera_stand_rpy:='0 0.15 1.5707963267948966'
+    tool_length:=0.15
+    camera_width:=1280
+    camera_height:=720
+    camera_hfov:=1.2
+    camera_rate:=15.0
+    image_noise_stddev:=0.0
+    enable_depth:=false
+  ">
+
+    <!-- ============================ ChArUco board ============================ -->
+    <link name="${tf_prefix}charuco_board_frame_gt">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry><mesh filename="${board_mesh}"/></geometry>
+      </visual>
+      <inertial>
+        <origin xyz="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="1e-7" ixy="0" ixz="0" iyy="1e-7" iyz="0" izz="1e-7"/>
+      </inertial>
+    </link>
+
+    <xacro:if value="${mount_mode == 'eye_to_hand'}">
+      <!--
+        Board on the wrist, facing out along ee +Z.
+        rpy=(pi,0,0) sends board +Z to ee -Z, so the textured -Z face looks
+        along ee +Z. The board's origin is its top-left corner, so the xyz
+        offset (-W/2, +H/2, standoff) is what centres it on the ee axis.
+        The standoff clears the gripper, which occupies ee +Z out to ~36 mm.
+        The default camera stand sits out along -Y, since that is where ee +Z
+        points at theta=0, so the board is in view from the home configuration
+        rather than only after the collector stumbles onto a lucky pose.
+      -->
+      <joint name="${tf_prefix}charuco_mount_joint" type="fixed">
+        <parent link="${tf_prefix}ee_link"/>
+        <child link="${tf_prefix}charuco_board_frame_gt"/>
+        <origin xyz="${-board_width/2} ${board_height/2} ${board_standoff}"
+                rpy="${pi} 0 0"/>
+      </joint>
+
+      <xacro:sim_camera tf_prefix="${tf_prefix}" parent="${world_link}"
+                        xyz="${camera_stand_xyz}" rpy="${camera_stand_rpy}"
+                        width="${camera_width}" height="${camera_height}"
+                        hfov="${camera_hfov}" update_rate="${camera_rate}"
+                        noise_stddev="${image_noise_stddev}"
+                        enable_depth="${enable_depth}"/>
+    </xacro:if>
+
+    <xacro:if value="${mount_mode == 'eye_in_hand'}">
+      <!--
+        Board on a world-fixed stand, standing upright and facing +Y - i.e.
+        back toward the arm. The default stand position is out along -Y because
+        that is where the AR4 points at theta=0 (ee_link's +Z is world -Y at
+        the home configuration), so a wrist camera sees the board immediately
+        rather than after a long hunt for a seed pose.
+
+        rpy=(-pi/2, 0, pi) gives R = [[-1,0,0],[0,0,-1],[0,-1,0]]:
+        board +X -> world -X, board +Y (image down) -> world -Z (upright),
+        board +Z -> world -Y, so the textured -Z face looks along +Y.
+        Under that rotation the board's centre sits at (-W/2, 0, -H/2) from
+        its origin, so the +W/2 / +H/2 terms below make board_stand_x/y/z name
+        the board's CENTRE rather than its top-left corner.
+      -->
+      <joint name="${tf_prefix}charuco_mount_joint" type="fixed">
+        <parent link="${tf_prefix}${world_link}"/>
+        <child link="${tf_prefix}charuco_board_frame_gt"/>
+        <origin xyz="${board_stand_x + board_width/2} ${board_stand_y} ${board_stand_z + board_height/2}"
+                rpy="${-pi/2} 0 ${pi}"/>
+      </joint>
+
+      <xacro:sim_camera tf_prefix="${tf_prefix}" parent="${tf_prefix}ee_link"
+                        xyz="${camera_wrist_xyz}" rpy="${camera_wrist_rpy}"
+                        width="${camera_width}" height="${camera_height}"
+                        hfov="${camera_hfov}" update_rate="${camera_rate}"
+                        noise_stddev="${image_noise_stddev}"
+                        enable_depth="${enable_depth}"/>
+    </xacro:if>
+
+    <!-- ============================== TCP tool =============================== -->
+    <!--
+      A pointed tool for WP2's pivot calibration, with its tip a known
+      `tool_length` along ee +Z. Visual only: without collision geometry the
+      needle passes through the reference sphere, which is what lets
+      tcp_sim_poser place the tip exactly on the target.
+
+      The tool offset is deliberately NOT perturbed. With a zero perturbation
+      the recovered TCP offset should therefore equal (0, 0, tool_length)
+      exactly; with a perturbation it deviates by the kinematic error, and that
+      deviation is itself a WP2 result.
+    -->
+    <link name="${tf_prefix}tcp_tool_link">
+      <visual>
+        <origin xyz="0 0 ${tool_length/2}" rpy="0 0 0"/>
+        <geometry><cylinder radius="0.003" length="${tool_length}"/></geometry>
+        <material name="tcp_tool"><color rgba="0.9 0.2 0.1 1.0"/></material>
+      </visual>
+      <inertial>
+        <origin xyz="0 0 ${tool_length/2}"/>
+        <mass value="0.001"/>
+        <inertia ixx="1e-7" ixy="0" ixz="0" iyy="1e-7" iyz="0" izz="1e-7"/>
+      </inertial>
+    </link>
+    <joint name="${tf_prefix}tcp_tool_joint" type="fixed">
+      <parent link="${tf_prefix}ee_link"/>
+      <child link="${tf_prefix}tcp_tool_link"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+
+    <link name="${tf_prefix}tcp_tip_gt"/>
+    <joint name="${tf_prefix}tcp_tip_joint" type="fixed">
+      <parent link="${tf_prefix}ee_link"/>
+      <child link="${tf_prefix}tcp_tip_gt"/>
+      <origin xyz="0 0 ${tool_length}" rpy="0 0 0"/>
+    </joint>
+
+  </xacro:macro>
+</robot>

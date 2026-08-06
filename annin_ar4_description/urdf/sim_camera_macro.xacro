@@ -1,0 +1,169 @@
+<?xml version="1.0"?>
+<!--
+  Simulated RGB(-D) camera standing in for the Intel RealSense, for calibration
+  in Gazebo. Used only by ar_gazebo.urdf.xacro - the real-hardware and MoveIt
+  descriptions are untouched.
+
+  FRAME NAMING IS DELIBERATE AND MUST NOT BE "TIDIED UP" TO MATCH THE REALSENSE.
+
+  annin_ar4_calibration's hand_eye_calibration node broadcasts a *static
+  transform* whose child frame is `camera_color_optical_frame` (parent
+  `ee_link` for eye_in_hand, `base_link` for eye_to_hand). If
+  robot_state_publisher also published a link by that name there would be two
+  publishers writing the same TF edge, and tf2 would return whichever arrived
+  last - a wrong answer that still looks entirely plausible. The real-hardware
+  launch dodges the same hazard by passing `publish_tf:=false` to
+  realsense2_camera.
+
+  So the URDF frames here carry a `_gt` suffix and are pure *ground truth*,
+  published by robot_state_publisher and never written by any calibration node.
+  The camera pose that the calibration *estimates* lives on
+  `camera_color_optical_frame`, owned solely by hand_eye_calibration. In RViz
+  the visual gap between the two frames is the hand-eye error.
+
+  The image itself still has to carry `camera_color_optical_frame` as its
+  header frame_id, because target_detector publishes
+  `<image frame_id> -> calibration_target`. That is what <gz_frame_id> below
+  does, which is why no code in the calibration package needs changing.
+-->
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+
+  <xacro:macro name="sim_camera" params="
+    tf_prefix
+    parent
+    xyz
+    rpy
+    width:=1280
+    height:=720
+    hfov:=1.2
+    update_rate:=15.0
+    noise_stddev:=0.0
+    enable_depth:=false
+    depth_near:=0.07
+    depth_far:=1.0
+    topic_ns:=sim_camera
+  ">
+
+    <!--
+      Rig links carry a tiny inertial and NO collision geometry.
+
+      No collision, because: Gazebo then cannot wedge the camera into the arm;
+      the MoveIt planning model (ar.urdf.xacro, which has no rig at all) stays
+      collision-consistent with the simulated one, so no new disable_collisions
+      entries are needed in the SRDF.
+
+      A non-zero inertial, because sdformat lumps fixed-joint children into
+      their parent by default (which is what we want - it also transfers the
+      <gazebo reference> sensor below, with the pose composed correctly), but
+      if that ever stops happening a preserved link with singular inertia makes
+      bullet-featherstone emit NaNs and the whole articulation explodes.
+    -->
+    <link name="${tf_prefix}sim_camera_link_gt">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry><box size="0.025 0.09 0.025"/></geometry>
+        <material name="sim_camera_body"><color rgba="0.15 0.15 0.17 1.0"/></material>
+      </visual>
+      <inertial>
+        <origin xyz="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="1e-7" ixy="0" ixz="0" iyy="1e-7" iyz="0" izz="1e-7"/>
+      </inertial>
+    </link>
+
+    <joint name="${tf_prefix}sim_camera_mount_joint" type="fixed">
+      <parent link="${parent}"/>
+      <child link="${tf_prefix}sim_camera_link_gt"/>
+      <origin xyz="${xyz}" rpy="${rpy}"/>
+    </joint>
+
+    <!-- Kept for naming parity with the RealSense chain. -->
+    <link name="${tf_prefix}sim_camera_color_frame_gt"/>
+    <joint name="${tf_prefix}sim_camera_color_joint" type="fixed">
+      <parent link="${tf_prefix}sim_camera_link_gt"/>
+      <child link="${tf_prefix}sim_camera_color_frame_gt"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+
+    <!-- REP-103 optical frame: +X right, +Y down, +Z forward. -->
+    <link name="${tf_prefix}sim_camera_color_optical_frame_gt"/>
+    <joint name="${tf_prefix}sim_camera_optical_joint" type="fixed">
+      <parent link="${tf_prefix}sim_camera_color_frame_gt"/>
+      <child link="${tf_prefix}sim_camera_color_optical_frame_gt"/>
+      <origin xyz="0 0 0" rpy="${-pi/2} 0 ${-pi/2}"/>
+    </joint>
+
+    <gazebo reference="${tf_prefix}sim_camera_link_gt">
+      <!--
+        A plain "camera", not "rgbd_camera": gz-sensors routes an rgbd_camera's
+        <noise> to its depth image only, so colour noise is unreachable there.
+        Two sensors on the same link give noisy colour AND depth that is
+        aligned to it by construction.
+
+        <gz_frame_id> must name the OPTICAL frame, not the link frame. gz
+        renders along the link's +X, but the image and CameraInfo follow the
+        optical pixel convention; naming the link frame would silently rotate
+        every detected target pose by 90 degrees. sdformat does not know this
+        element and logs "not defined in SDF. Copying[gz_frame_id]" - that
+        warning is expected, and the element is preserved and honoured.
+      -->
+      <sensor name="sim_color" type="camera">
+        <gz_frame_id>camera_color_optical_frame</gz_frame_id>
+        <always_on>1</always_on>
+        <update_rate>${update_rate}</update_rate>
+        <visualize>false</visualize>
+        <topic>${topic_ns}/color/image_raw</topic>
+        <camera>
+          <camera_info_topic>${topic_ns}/color/camera_info</camera_info_topic>
+          <horizontal_fov>${hfov}</horizontal_fov>
+          <image>
+            <width>${width}</width>
+            <height>${height}</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip><near>0.02</near><far>50.0</far></clip>
+          <!--
+            No <distortion> on purpose. CameraInfo.d is then all zeros and
+            ChArUco pose estimation is exact, so the only errors left in a
+            ground-truth study are the ones deliberately injected. Adding lens
+            distortion introduces an unmodelled term that cannot be separated
+            from the kinematic perturbation afterwards; add it later as its own
+            experiment if you want it.
+
+            Worth knowing for the error budget: gz fills cx = width/2.0 where
+            the pinhole-exact value is (width-1)/2. At fx ~= 935 and 0.4 m that
+            half-pixel bias is about 0.2 mm laterally - the floor below which a
+            "recovered" difference is not real.
+          -->
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>${noise_stddev}</stddev>
+          </noise>
+        </camera>
+      </sensor>
+
+      <xacro:if value="${enable_depth}">
+        <!-- Only needed for the MoveIt octomap / collision-avoidance path. -->
+        <sensor name="sim_depth" type="depth_camera">
+          <gz_frame_id>camera_color_optical_frame</gz_frame_id>
+          <always_on>1</always_on>
+          <update_rate>${update_rate}</update_rate>
+          <visualize>false</visualize>
+          <topic>${topic_ns}/depth/image_raw</topic>
+          <camera>
+            <horizontal_fov>${hfov}</horizontal_fov>
+            <image>
+              <width>${width}</width>
+              <height>${height}</height>
+              <format>R_FLOAT32</format>
+            </image>
+            <!-- Matches sensors_3d.yaml's near/far clipping planes. -->
+            <clip><near>${depth_near}</near><far>${depth_far}</far></clip>
+          </camera>
+        </sensor>
+      </xacro:if>
+    </gazebo>
+
+  </xacro:macro>
+</robot>

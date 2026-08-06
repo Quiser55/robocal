@@ -8,7 +8,7 @@ from launch_ros.parameter_descriptions import ParameterFile
 from launch_ros.substitutions import FindPackageShare
 
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument
+from launch.actions import DeclareLaunchArgument, OpaqueFunction
 from launch.conditions import IfCondition
 from launch.substitutions import (
     Command,
@@ -25,57 +25,16 @@ def load_yaml(package_name, file_name):
         return yaml.safe_load(file)
 
 
-def generate_launch_description():
+def launch_setup(context, *args, **kwargs):
     use_sim_time = LaunchConfiguration("use_sim_time")
     include_gripper = LaunchConfiguration("include_gripper")
     rviz_config_file = LaunchConfiguration("rviz_config_file")
     ar_model_config = LaunchConfiguration("ar_model")
     tf_prefix = LaunchConfiguration("tf_prefix")
     moveit_servo = LaunchConfiguration("moveit_servo")
-
-    declared_arguments = []
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "use_sim_time",
-            default_value="False",
-            description="Make MoveIt use simulation time. This is needed " +
-            "for trajectory planing in simulation.",
-        ))
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "tf_prefix",
-            default_value="",
-            description="Prefix for AR4 tf_tree",
-        ))
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "include_gripper",
-            default_value="True",
-            description="Run the servo gripper",
-            choices=["True", "False"],
-        ))
-    rviz_config_file_default = PathJoinSubstitution(
-        [FindPackageShare("annin_ar4_moveit_config"), "rviz", "moveit.rviz"])
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "rviz_config_file",
-            default_value=rviz_config_file_default,
-            description="Full path to the RViz configuration file to use",
-        ))
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "ar_model",
-            default_value="mk5",
-            choices=["mk1", "mk2", "mk3", "mk4", "mk5"],
-            description="Model of AR4",
-        ))
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "moveit_servo",
-            default_value="False",
-            choices=["True", "False"],
-            description="Run moveit2 servo",
-        ))
+    # Resolve the octomap flag to a Python bool so we can conditionally add the
+    # 3D-sensor (occupancy map) parameters to the move_group node below.
+    octomap_enabled = LaunchConfiguration("octomap").perform(context).lower() == "true"
 
     robot_description_content = Command([
         PathJoinSubstitution([FindExecutable(name="xacro")]),
@@ -175,25 +134,34 @@ def generate_launch_description():
         "publish_robot_description_semantic": True,
     }
 
+    # 3D perception (occupancy map / octomap). When octomap:=True, feed the
+    # RealSense depth stream into MoveIt's occupancy_map_monitor so move_group
+    # plans around obstacles the camera sees. Requires ros-jazzy-moveit-ros-
+    # perception (DepthImageOctomapUpdater plugin) to be installed.
+    move_group_parameters = [
+        robot_description,
+        robot_description_semantic,
+        robot_description_kinematics,
+        joint_limits,
+        planning_pipeline_config,
+        trajectory_execution,
+        moveit_controller_manager,
+        moveit_controllers,
+        planning_scene_monitor_parameters,
+        {
+            "use_sim_time": use_sim_time
+        },
+    ]
+    if octomap_enabled:
+        move_group_parameters.append(
+            load_yaml("annin_ar4_moveit_config", "config/sensors_3d.yaml"))
+
     # Start the actual move_group node/action server
     move_group_node = Node(
         package="moveit_ros_move_group",
         executable="move_group",
         output="screen",
-        parameters=[
-            robot_description,
-            robot_description_semantic,
-            robot_description_kinematics,
-            joint_limits,
-            planning_pipeline_config,
-            trajectory_execution,
-            moveit_controller_manager,
-            moveit_controllers,
-            planning_scene_monitor_parameters,
-            {
-                "use_sim_time": use_sim_time
-            },
-        ],
+        parameters=move_group_parameters,
     )
 
     # rviz with moveit configuration
@@ -244,5 +212,62 @@ def generate_launch_description():
         condition=IfCondition(moveit_servo),
     )
 
-    nodes_to_start = [move_group_node, rviz_node, servo_node]
-    return LaunchDescription(declared_arguments + nodes_to_start)
+    return [move_group_node, rviz_node, servo_node]
+
+
+def generate_launch_description():
+    declared_arguments = []
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "use_sim_time",
+            default_value="False",
+            description="Make MoveIt use simulation time. This is needed " +
+            "for trajectory planing in simulation.",
+        ))
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "tf_prefix",
+            default_value="",
+            description="Prefix for AR4 tf_tree",
+        ))
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "include_gripper",
+            default_value="True",
+            description="Run the servo gripper",
+            choices=["True", "False"],
+        ))
+    rviz_config_file_default = PathJoinSubstitution(
+        [FindPackageShare("annin_ar4_moveit_config"), "rviz", "moveit.rviz"])
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "rviz_config_file",
+            default_value=rviz_config_file_default,
+            description="Full path to the RViz configuration file to use",
+        ))
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "ar_model",
+            default_value="mk5",
+            choices=["mk1", "mk2", "mk3", "mk4", "mk5"],
+            description="Model of AR4",
+        ))
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "moveit_servo",
+            default_value="False",
+            choices=["True", "False"],
+            description="Run moveit2 servo",
+        ))
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "octomap",
+            default_value="False",
+            choices=["True", "False"],
+            description="Feed the RealSense depth stream into MoveIt's octomap "
+            "so planning avoids obstacles the camera sees (requires "
+            "ros-jazzy-moveit-ros-perception). See config/sensors_3d.yaml.",
+        ))
+
+    return LaunchDescription(
+        declared_arguments + [OpaqueFunction(function=launch_setup)])
