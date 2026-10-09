@@ -1,0 +1,69 @@
+run_id: sim_wp3-s005-ac0bdc640c
+spec:
+  run_id: sim_wp3-s005-ac0bdc640c
+  sweep: sim_wp3
+  mode: sim
+  work_packages:
+  - wp3
+  seed: 5
+  collection:
+    calibration_type: eye_in_hand
+    perturbation_file: ''
+    perturbation_sigma_t_mm: 1.0
+    perturbation_sigma_r_deg: 0.1
+    image_noise_stddev: 0.002
+    camera_width: 640
+    camera_height: 480
+    num_samples: 10
+    num_candidates: 60
+    touch_noise_std_m: 0.0
+    num_poses: 40
+    ar_model: mk5
+  analysis:
+    kfold: 5
+    bootstrap: 200
+    bootstrap_seed: 0
+    kfold_seed: 0
+  variants:
+    wp3:
+      method:
+      - TSAI
+      - PARK
+      - HORAUD
+      - ANDREFF
+      - DANIILIDIS
+started_utc: '2026-08-21T08:49:52.194782+00:00'
+git_sha: 1692aad9fce6bd0d0bafbc704c3d778ba12dea92
+outcome: ok
+steps:
+- step: sim_ready
+  ok: true
+  message: ''
+- step: wp3.target_detected
+  ok: true
+  message: ''
+  seconds: 5.0
+- step: wp3.capture_seed
+  ok: true
+  message: 'Captured seed pose: t=[0.0000, -0.3281, 0.4748]. Call run_auto_sequence
+    next.'
+  seconds: 0.6
+- step: wp3.run_auto_sequence
+  ok: true
+  message: collected 10/10 attempted poses (0 unreachable, 0 target not visible)
+  seconds: 34.1
+- step: wp3.compute
+  ok: true
+  message: 'Calibration complete: ee_link -> camera_color_optical_frame, t=[-0.0008,
+    -0.0676, 0.0223] m, consistency_rms=1.50 mm / 0.14 deg, samples=10'
+  seconds: 0.1
+- step: ground_truth_compare
+  ok: true
+  message: Compared 1 result(s) against ground truth (hand_eye 3.44 mm); wrote /home/jonas/benchmarks/runs/sim_wp3-s005-ac0bdc640c/ros_home/annin_ar4_calibration/ground_truth.yaml
+perturbation_file: /home/jonas/benchmarks/runs/sim_wp3-s005-ac0bdc640c/perturbation.yaml
+renderer:
+  GALLIUM_DRIVER: d3d12
+  gl_renderer: D3D12 (Intel(R) Arc(TM) B580 Graphics)
+  software_rendering: false
+duration_sec: 73.5
+finished_utc: '2026-08-21T08:51:05.714095+00:00'
