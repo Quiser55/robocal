@@ -1,0 +1,163 @@
+ground_truth:
+  calibration_type: eye_in_hand
+  ar_model: mk5
+  perturbation_file: /home/jonas/benchmarks/runs/sim_wp4-s004-b1ce245ed2/perturbation.yaml
+  timestamp: '2026-08-26T07:01:40Z'
+  note: Simulation ground truth. Kinematic corrections are the injected perturbation
+    verbatim (same parameterization as kinematic_result.yaml); the transforms are
+    read from the nominal URDF via the _gt TF frames.
+  kinematic_calibration:
+    arm_joint_names:
+    - joint_1
+    - joint_2
+    - joint_3
+    - joint_4
+    - joint_5
+    - joint_6
+    corrections:
+      joint_1:
+        delta_t_perp:
+        - -0.0013035823052233793
+        - -0.0003494345846515543
+        delta_r_perp:
+        - 0.000552649809746637
+        - 0.0008910720231689471
+      joint_2:
+        delta_t_perp:
+        - 0.002
+        - 0.00131829549966451
+        delta_r_perp:
+        - -0.002605980226908877
+        - 0.002617993877991494
+      joint_3:
+        delta_t_perp:
+        - -0.002
+        - -1.0406528343863954e-05
+        delta_r_perp:
+        - -0.002617993877991494
+        - 0.0019230070088686207
+      joint_4:
+        delta_t_perp:
+        - -0.001246927481976787
+        - 0.00029726304650405265
+        delta_r_perp:
+        - -0.0005757912304841281
+        - -0.0015370181284063327
+      joint_5:
+        delta_t_perp:
+        - -0.002
+        - 0.00048354375375370264
+        delta_r_perp:
+        - -0.0011454334272198562
+        - -0.00117288687992318
+      joint_6:
+        delta_t_perp:
+        - 0.0004707618374749095
+        - 0.002
+        delta_r_perp:
+        - 0.0006635551439913359
+        - -0.00019208866030511363
+    mount_offset:
+      role: base_T_marker
+      parent_frame: base_link
+      gt_frame: charuco_board_frame_gt
+      translation:
+        x: 0.0875
+        y: -0.78
+        z: 0.5225
+      rotation:
+        x: -4.3297802811774664e-17
+        y: -0.7071067811865475
+        z: 0.7071067811865476
+        w: 4.329780281177467e-17
+  hand_eye_calibration:
+    parent_frame: ee_link
+    child_frame: camera_color_optical_frame
+    gt_frame: sim_camera_color_optical_frame_gt
+    transform:
+      translation:
+        x: 0.0
+        y: -0.07
+        z: 0.02
+      rotation:
+        x: -5.5511151231257815e-17
+        y: -5.5511151231257815e-17
+        z: -0.7071067811865475
+        w: 0.7071067811865476
+  tcp_calibration:
+    parent_frame: ee_link
+    gt_frame: tcp_tip_gt
+    offset:
+      x: 0.0
+      y: 0.0
+      z: 0.15
+comparison:
+  hand_eye:
+    translation_error_mm: 0.8310810327427304
+    rotation_error_deg: 0.1317151358687614
+    consistency_rms_mm: 1.2434110540054815
+    num_samples: 300
+  kinematic:
+    calibration_type: eye_in_hand
+    per_joint:
+      joint_1:
+        delta_t_perp_error_mm:
+        - 1.3035823052233793
+        - 0.3494345846515543
+        delta_r_perp_error_mdeg:
+        - -31.66450164719021
+        - -51.05466616976418
+        delta_t_perp_error_norm_mm: 1.34960414768261
+        delta_r_perp_error_norm_mdeg: 60.07678089138078
+      joint_2:
+        delta_t_perp_error_mm:
+        - -1.9844299918340969
+        - 0.16230574305443954
+        delta_r_perp_error_mdeg:
+        - 287.7846569357173
+        - -0.5056058590812259
+        delta_t_perp_error_norm_mm: 1.991056389638206
+        delta_r_perp_error_norm_mdeg: 287.78510108220206
+      joint_3:
+        delta_t_perp_error_mm:
+        - -0.5015303827847605
+        - 0.0037428779761997082
+        delta_r_perp_error_mdeg:
+        - -3.6178554469792483
+        - 3.9887841802440387
+        delta_t_perp_error_norm_mm: 0.5015443489780073
+        delta_r_perp_error_norm_mdeg: 5.385097703087895
+      joint_4:
+        delta_t_perp_error_mm:
+        - 0.3032330117766733
+        - 0.06888789344894233
+        delta_r_perp_error_mdeg:
+        - -0.2348128426163023
+        - 0.26048286815252514
+        delta_t_perp_error_norm_mm: 0.31095948497350084
+        delta_r_perp_error_norm_mdeg: 0.3506970140427691
+      joint_5:
+        delta_t_perp_error_mm:
+        - 0.3173937982479597
+        - -0.012805327928270107
+        delta_r_perp_error_mdeg:
+        - -6.072870025697296
+        - 3.656022879631464
+        delta_t_perp_error_norm_mm: 0.3176520102086828
+        delta_r_perp_error_norm_mdeg: 7.088459186974375
+      joint_6:
+        delta_t_perp_error_mm:
+        - 0.0561048890842
+        - -0.06357390026636311
+        delta_r_perp_error_mdeg:
+        - -8.037668594125291
+        - -7.001936708443898
+        delta_t_perp_error_norm_mm: 0.08479032594717317
+        delta_r_perp_error_norm_mdeg: 10.659795218391496
+    mount_offset:
+      translation_error_mm: 5.058153093671795
+      rotation_error_deg: 0.29719650887946797
+    primary_method: joint_trf
+    rms_before_mm: 2.7014672582119545
+    rms_after_mm: 0.4124425762533971
+    condition_number: 34606.61436213375

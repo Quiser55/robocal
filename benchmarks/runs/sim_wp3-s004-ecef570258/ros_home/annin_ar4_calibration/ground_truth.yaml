@@ -1,0 +1,99 @@
+ground_truth:
+  calibration_type: eye_in_hand
+  ar_model: mk5
+  perturbation_file: /home/jonas/benchmarks/runs/sim_wp3-s004-ecef570258/perturbation.yaml
+  timestamp: '2026-08-21T13:04:50Z'
+  note: Simulation ground truth. Kinematic corrections are the injected perturbation
+    verbatim (same parameterization as kinematic_result.yaml); the transforms are
+    read from the nominal URDF via the _gt TF frames.
+  kinematic_calibration:
+    arm_joint_names:
+    - joint_1
+    - joint_2
+    - joint_3
+    - joint_4
+    - joint_5
+    - joint_6
+    corrections:
+      joint_1:
+        delta_t_perp:
+        - -0.0006517911526116897
+        - -0.00017471729232577715
+        delta_r_perp:
+        - 0.000552649809746637
+        - 0.0008910720231689471
+      joint_2:
+        delta_t_perp:
+        - 0.0016637239913911968
+        - 0.000659147749832255
+        delta_r_perp:
+        - -0.002605980226908877
+        - 0.002617993877991494
+      joint_3:
+        delta_t_perp:
+        - -0.0016413972945846468
+        - -5.203264171931977e-06
+        delta_r_perp:
+        - -0.002617993877991494
+        - 0.0019230070088686207
+      joint_4:
+        delta_t_perp:
+        - -0.0006234637409883935
+        - 0.00014863152325202632
+        delta_r_perp:
+        - -0.0005757912304841281
+        - -0.0015370181284063327
+      joint_5:
+        delta_t_perp:
+        - -0.001608187784186389
+        - 0.00024177187687685132
+        delta_r_perp:
+        - -0.0011454334272198562
+        - -0.00117288687992318
+      joint_6:
+        delta_t_perp:
+        - 0.00023538091873745475
+        - 0.0015756260314314628
+        delta_r_perp:
+        - 0.0006635551439913359
+        - -0.00019208866030511363
+    mount_offset:
+      role: base_T_marker
+      parent_frame: base_link
+      gt_frame: charuco_board_frame_gt
+      translation:
+        x: 0.0875
+        y: -0.78
+        z: 0.5225
+      rotation:
+        x: -4.3297802811774664e-17
+        y: -0.7071067811865475
+        z: 0.7071067811865476
+        w: 4.329780281177467e-17
+  hand_eye_calibration:
+    parent_frame: ee_link
+    child_frame: camera_color_optical_frame
+    gt_frame: sim_camera_color_optical_frame_gt
+    transform:
+      translation:
+        x: 0.0
+        y: -0.07
+        z: 0.02
+      rotation:
+        x: -5.5511151231257815e-17
+        y: -5.5511151231257815e-17
+        z: -0.7071067811865475
+        w: 0.7071067811865476
+  tcp_calibration:
+    parent_frame: ee_link
+    gt_frame: tcp_tip_gt
+    offset:
+      x: 0.0
+      y: 0.0
+      z: 0.15
+comparison:
+  hand_eye:
+    translation_error_mm: 2.681677363729654
+    rotation_error_deg: 0.1376314769319562
+    consistency_rms_mm: 0.9478502641399216
+    num_samples: 40

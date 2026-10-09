@@ -1,0 +1,91 @@
+run_id: sim_wp4-s002-657c835b74
+spec:
+  run_id: sim_wp4-s002-657c835b74
+  sweep: sim_wp4
+  mode: sim
+  work_packages:
+  - wp3
+  - wp4
+  seed: 2
+  collection:
+    calibration_type: eye_in_hand
+    perturbation_file: ''
+    perturbation_sigma_t_mm: 2.0
+    perturbation_sigma_r_deg: 0.1
+    image_noise_stddev: 0.0
+    camera_width: 1280
+    camera_height: 720
+    num_samples: 40
+    num_candidates: 800
+    touch_noise_std_m: 0.0
+    num_poses: 40
+    ar_model: mk5
+  analysis:
+    kfold: 5
+    bootstrap: 200
+    bootstrap_seed: 0
+    kfold_seed: 0
+    bootstrap_wp4: 20
+  variants:
+    wp3:
+      method:
+      - PARK
+    wp4:
+      method:
+      - sequential
+      - joint_trf
+      - joint_lm
+      ridge_lambda:
+      - 1.0e-09
+      - 1.0e-06
+      - 0.001
+started_utc: '2026-08-25T13:40:57.983152+00:00'
+git_sha: 1692aad9fce6bd0d0bafbc704c3d778ba12dea92
+outcome: ok
+steps:
+- step: sim_ready
+  ok: true
+  message: ''
+- step: wp3.target_detected
+  ok: true
+  message: ''
+  seconds: 6.0
+- step: wp3.capture_seed
+  ok: true
+  message: 'Captured seed pose: t=[0.0000, -0.3281, 0.4748]. Call run_auto_sequence
+    next.'
+  seconds: 0.7
+- step: wp3.run_auto_sequence
+  ok: true
+  message: collected 40/46 attempted poses (0 unreachable, 6 target not visible)
+  seconds: 213.7
+- step: wp3.compute
+  ok: true
+  message: 'Calibration complete: ee_link -> camera_color_optical_frame, t=[0.0021,
+    -0.0694, 0.0184] m, consistency_rms=3.32 mm / 0.17 deg, samples=80'
+  seconds: 0.1
+- step: wp4.target_detected
+  ok: true
+  message: ''
+  seconds: 0.0
+- step: wp4.run_auto_sequence
+  ok: true
+  message: 'collected 40/40 attempted configs (0 unreachable, 0 target not visible);
+    candidates: 800/800 visible configs from 73728 draws (1.1% yield)'
+  seconds: 266.5
+- step: wp4.compute
+  ok: true
+  message: 'Calibration complete (40 samples). sequential: rms 4.78->2.46 mm, cond=18298.1,
+    joint_trf: rms 4.78->2.46 mm, cond=18297.6, joint_lm_diagnostic: rms 4.78->2.46
+    mm, cond=18295.9'
+  seconds: 2.5
+- step: ground_truth_compare
+  ok: true
+  message: Compared 2 result(s) against ground truth (hand_eye 2.65 mm); wrote /home/jonas/benchmarks/runs/sim_wp4-s002-657c835b74/ros_home/annin_ar4_calibration/ground_truth.yaml
+perturbation_file: /home/jonas/benchmarks/runs/sim_wp4-s002-657c835b74/perturbation.yaml
+renderer:
+  GALLIUM_DRIVER: d3d12
+  gl_renderer: D3D12 (Intel(R) Arc(TM) B580 Graphics)
+  software_rendering: false
+duration_sec: 532.7
+finished_utc: '2026-08-25T13:49:50.645184+00:00'

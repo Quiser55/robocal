@@ -1,0 +1,58 @@
+run_id: sim_wp2-s001-81d987c604
+spec:
+  run_id: sim_wp2-s001-81d987c604
+  sweep: sim_wp2
+  mode: sim
+  work_packages:
+  - wp2
+  seed: 1
+  collection:
+    calibration_type: eye_to_hand
+    perturbation_file: ''
+    perturbation_sigma_t_mm: 1.0
+    perturbation_sigma_r_deg: 0.1
+    image_noise_stddev: 0.0
+    camera_width: 1280
+    camera_height: 720
+    num_samples: 100
+    num_candidates: 400
+    touch_noise_std_m: 0.0
+    num_poses: 10
+    ar_model: mk5
+  analysis:
+    kfold: 5
+    bootstrap: 200
+    bootstrap_seed: 0
+    kfold_seed: 0
+  variants:
+    wp2:
+      ransac:
+      - true
+      - false
+started_utc: '2026-08-20T15:10:55.709236+00:00'
+git_sha: 1692aad9fce6bd0d0bafbc704c3d778ba12dea92
+outcome: ok
+steps:
+- step: sim_ready
+  ok: true
+  message: ''
+- step: wp2.run_sequence
+  ok: true
+  message: 'Collected 10/10 touches (skipped: 0 unreachable, 0 motion failures, 0
+    collector rejections). Now call /calibration/compute_calibration.'
+  seconds: 89.4
+- step: wp2.compute
+  ok: true
+  message: 'Calibration complete: offset=[0.0000, -0.0000, 0.1505] m, rms_inliers=0.00043
+    m, samples=10, inliers=10/10'
+  seconds: 1.6
+- step: ground_truth_compare
+  ok: true
+  message: Compared 1 result(s) against ground truth (tcp 0.51 mm); wrote /home/jonas/benchmarks/runs/sim_wp2-s001-81d987c604/ros_home/annin_ar4_calibration/ground_truth.yaml
+perturbation_file: /home/jonas/benchmarks/runs/sim_wp2-s001-81d987c604/perturbation.yaml
+renderer:
+  GALLIUM_DRIVER: d3d12
+  gl_renderer: D3D12 (Intel(R) Arc(TM) B580 Graphics)
+  software_rendering: false
+duration_sec: 123.4
+finished_utc: '2026-08-20T15:12:59.103174+00:00'

@@ -1,0 +1,798 @@
+<robot name="mk5">
+  <link name="world" />
+  <joint name="base_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0" />
+    <parent link="world" />
+    <child link="base_link" />
+  </joint>
+  
+  
+  
+  <link name="base_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="-4.6941E-06 0.054174 0.038824" />
+      <mass value="0.7102" />
+      <inertia ixx="0.0039943" ixy="3.697E-07" ixz="-5.7364E-08" iyy="0.0014946" iyz="-0.00036051" izz="0.0042554" />
+    </inertial>
+  </link>
+  
+  <link name="base_link_aluminum">
+    <visual>
+      <origin rpy="0 0 -1.5708" xyz="0 0 0" />
+      <geometry>
+        <mesh filename="package://annin_ar4_description/meshes/ar4_mk5/Link_Base_Aluminum.STL" />
+      </geometry>
+      <material name="base_aluminum_mat">
+        <color rgba="0.863 0.863 0.863 1.0" />
+      </material>
+    </visual>
+  </link>
+  <joint name="base_link_aluminum_joint" type="fixed">
+    <parent link="base_link" />
+    <child link="base_link_aluminum" />
+    <origin rpy="0 0 0" xyz="0 0 0" />
+  </joint>
+  
+  <link name="base_link_enclosure">
+    <visual>
+      <origin rpy="0 0 -1.5708" xyz="0 0 0" />
+      <geometry>
+        <mesh filename="package://annin_ar4_description/meshes/ar4_mk5/Link_Base_Enclosure.STL" />
+      </geometry>
+      <material name="base_enclosure_mat">
+        <color rgba="0.627 0.627 0.627 1.0" />
+      </material>
+    </visual>
+  </link>
+  <joint name="base_link_enclosure_joint" type="fixed">
+    <parent link="base_link" />
+    <child link="base_link_enclosure" />
+    <origin rpy="0 0 0" xyz="0 0 0" />
+  </joint>
+  
+  <link name="base_link_motor">
+    <visual>
+      <origin rpy="0 0 -1.5708" xyz="0 0 0" />
+      <geometry>
+        <mesh filename="package://annin_ar4_description/meshes/ar4_mk5/Link_Base_Motor.STL" />
+      </geometry>
+      <material name="base_motor_mat">
+        <color rgba="0.078 0.078 0.078 1.0" />
+      </material>
+    </visual>
+  </link>
+  <joint name="base_link_motor_joint" type="fixed">
+    <parent link="base_link" />
+    <child link="base_link_motor" />
+    <origin rpy="0 0 0" xyz="0 0 0" />
+  </joint>
+  
+  
+  
+  <link name="link_1">
+    <inertial>
+      <origin rpy="0 0 0" xyz="-0.022706 0.04294 -0.12205" />
+      <mass value="0.88065" />
+      <inertia ixx="0.0034" ixy="0.00042296" ixz="-0.00089231" iyy="0.0041778" iyz="0.0010848" izz="0.0027077" />
+    </inertial>
+  </link>
+  
+  <link name="link_1_aluminum">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <geometry>
+        <mesh filename="package://annin_ar4_description/meshes/ar4_mk5/Link_1_Aluminum.STL" />
+      </geometry>
+      <material name="link1_aluminum_mat">
+        <color rgba="0.863 0.863 0.863 1.0" />
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <geometry>
+        <mesh filename="package://annin_ar4_description/meshes/ar4_mk5/Link_1_Col.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="link_1_aluminum_joint" type="fixed">
+    <parent link="link_1" />
+    <child link="link_1_aluminum" />
+    <origin rpy="0 0 0" xyz="0 0 0" />
+  </joint>
+  
+  <link name="link_1_motor">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <geometry>
+        <mesh filename="package://annin_ar4_description/meshes/ar4_mk5/Link_1_Motor.STL" />
+      </geometry>
+      <material name="link1_motors_mat">
+        <color rgba="0.078 0.078 0.078 1.0" />
+      </material>
+    </visual>
+  </link>
+  <joint name="link_1_motor_joint" type="fixed">
+    <parent link="link_1" />
+    <child link="link_1_motor" />
+    <origin rpy="0 0 0" xyz="0 0 0" />
+  </joint>
+  <joint name="joint_1" type="revolute">
+    <origin rpy="3.13897465727 0.00167248638371 -2.18928335883e-06" xyz="0.000662179497814 0.000400965712627 0.092" />
+    <parent link="base_link" />
+    <child link="link_1" />
+    <axis xyz="0 0 1" />
+    <limit effort="-1" lower="-2.792526803190927" upper="2.792526803190927" velocity="1.0472" />
+  </joint>
+  
+  
+  
+  <link name="link_2">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0.064818 -0.11189 -0.038671" />
+      <mass value="0.57738" />
+      <inertia ixx="0.0047312" ixy="0.0022624" ixz="0.00032144" iyy="0.0020836" iyz="-0.00056569" izz="0.0056129" />
+    </inertial>
+  </link>
+  
+  <link name="link_2_aluminum">
+    <visual>
+      
+      <origin rpy="3.14 0 0" xyz="0 0 -0.00887" />
+      <geometry>
+        <mesh filename="package://annin_ar4_description/meshes/ar4_mk5/Link_2_Aluminum.STL" />
+      </geometry>
+      <material name="link2_aluminum_mat">
+        <color rgba="0.863 0.863 0.863 1.0" />
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="3.14 0 0" xyz="0 0 -0.00887" />
+      <geometry>
+        <mesh filename="package://annin_ar4_description/meshes/ar4_mk5/Link_2_Col.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="link_2_aluminum_joint" type="fixed">
+    <parent link="link_2" />
+    <child link="link_2_aluminum" />
+    <origin rpy="0 0 0" xyz="0 0 0" />
+  </joint>
+  
+  <link name="link_2_motor">
+    <visual>
+      
+      <origin rpy="3.14 0 0" xyz="0 0 -0.00887" />
+      <geometry>
+        <mesh filename="package://annin_ar4_description/meshes/ar4_mk5/Link_2_Motor.STL" />
+      </geometry>
+      <material name="link2_motor_mat">
+        <color rgba="0.078 0.078 0.078 1.0" />
+      </material>
+    </visual>
+  </link>
+  <joint name="link_2_motor_joint" type="fixed">
+    <parent link="link_2" />
+    <child link="link_2_motor" />
+    <origin rpy="0 0 0" xyz="0 0 0" />
+  </joint>
+  
+  <link name="link_2_cover">
+    <visual>
+      
+      <origin rpy="3.14 0 0" xyz="0 0 -0.00887" />
+      <geometry>
+        <mesh filename="package://annin_ar4_description/meshes/ar4_mk5/Link_2_Cover.STL" />
+      </geometry>
+      <material name="link2_cover_mat">
+        <color rgba="0 0.35 1 1" />
+      </material>
+    </visual>
+  </link>
+  <joint name="link_2_cover_joint" type="fixed">
+    <parent link="link_2" />
+    <child link="link_2_cover" />
+    <origin rpy="0 0 0" xyz="0 0 0" />
+  </joint>
+  
+  <link name="link_2_logo">
+    <visual>
+      
+      <origin rpy="3.14 0 0" xyz="0 0 -0.00887" />
+      <geometry>
+        <mesh filename="package://annin_ar4_description/meshes/ar4_mk5/Link_2_Logo.STL" />
+      </geometry>
+      <material name="link2_logo_mat">
+        <color rgba="1 1 1 1" />
+      </material>
+    </visual>
+  </link>
+  <joint name="link_2_logo_joint" type="fixed">
+    <parent link="link_2" />
+    <child link="link_2_logo" />
+    <origin rpy="0 0 0" xyz="0 0 0" />
+  </joint>
+  <joint name="joint_2" type="revolute">
+    <origin rpy="1.57341799382 4.64811840168e-07 -1.57115409625" xyz="3.16049208195e-10 0.064360222619 -0.077655819189" />
+    <parent link="link_1" />
+    <child link="link_2" />
+    <axis xyz="0 0 -1" />
+    <limit effort="-1" lower="-0.7330382858376184" upper="1.5707963267948966" velocity="1.0472" />
+  </joint>
+  
+  <link name="link_3">
+    <inertial>
+      <origin rpy="0 0 0" xyz="-0.00029765 -0.023661 -0.0019125" />
+      <mass value="0.1787" />
+      <inertia ixx="0.0001685" ixy="-2.7713E-05" ixz="5.6885E-06" iyy="0.00012865" iyz="2.9256E-05" izz="0.00020744" />
+    </inertial>
+  </link>
+  
+  <link name="link_3_aluminum">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 -0.03671" />
+      <geometry>
+        <mesh filename="package://annin_ar4_description/meshes/ar4_mk5/Link_3_Aluminum.STL" />
+      </geometry>
+      <material name="link3_aluminum_mat">
+        <color rgba="0.863 0.863 0.863 1.0" />
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 -0.03671" />
+      <geometry>
+        <mesh filename="package://annin_ar4_description/meshes/ar4_mk5/Link_3_Col.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="link_3_aluminum_joint" type="fixed">
+    <parent link="link_3" />
+    <child link="link_3_aluminum" />
+    <origin rpy="0 0 0" xyz="0 0 0" />
+  </joint>
+  
+  <link name="link_3_motor">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 -0.03671" />
+      <geometry>
+        <mesh filename="package://annin_ar4_description/meshes/ar4_mk5/Link_3_Motor.STL" />
+      </geometry>
+      <material name="link3_motor_mat">
+        <color rgba="0.078 0.078 0.078 1.0" />
+      </material>
+    </visual>
+  </link>
+  <joint name="link_3_motor_joint" type="fixed">
+    <parent link="link_3" />
+    <child link="link_3_motor" />
+    <origin rpy="0 0 0" xyz="0 0 0" />
+  </joint>
+  <joint name="joint_3" type="revolute">
+    <origin rpy="0.00203021233257 0.000146077313255 -3.1415851589" xyz="5.48490267275e-05 -0.304431976331 0" />
+    <parent link="link_2" />
+    <child link="link_3" />
+    <axis xyz="0 0 -1" />
+    <limit effort="-1" lower="-1.5533430342749532" upper="0.9075712110370514" velocity="1.0472" />
+  </joint>
+  
+  <link name="link_4">
+    <inertial>
+      <origin rpy="0 0 0" xyz="-0.0016798 -0.00057319 -0.074404" />
+      <mass value="0.34936" />
+      <inertia ixx="0.0030532" ixy="-1.8615E-05" ixz="-7.0047E-05" iyy="0.0031033" iyz="-2.3301E-05" izz="0.00022264" />
+    </inertial>
+  </link>
+  
+  <link name="link_4_aluminum">
+    <visual>
+      <origin rpy="0 0 -1.5708" xyz="0 0 -0.07594" />
+      <geometry>
+        <mesh filename="package://annin_ar4_description/meshes/ar4_mk5/Link_4_Aluminum.STL" />
+      </geometry>
+      <material name="link4_aluminum_mat">
+        <color rgba="0.863 0.863 0.863 1.0" />
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="0 0 -1.5708" xyz="0 0 -0.07594" />
+      <geometry>
+        <mesh filename="package://annin_ar4_description/meshes/ar4_mk5/Link_4_Col.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="link_4_aluminum_joint" type="fixed">
+    <parent link="link_4" />
+    <child link="link_4_aluminum" />
+    <origin rpy="0 0 0" xyz="0 0 0" />
+  </joint>
+  
+  <link name="link_4_motor">
+    <visual>
+      <origin rpy="0 0 -1.5708" xyz="0 0 -0.07594" />
+      <geometry>
+        <mesh filename="package://annin_ar4_description/meshes/ar4_mk5/Link_4_Motor.STL" />
+      </geometry>
+      <material name="link4_motor_mat">
+        <color rgba="0.078 0.078 0.078 1.0" />
+      </material>
+    </visual>
+  </link>
+  <joint name="link_4_motor_joint" type="fixed">
+    <parent link="link_4" />
+    <child link="link_4_motor" />
+    <origin rpy="0 0 0" xyz="0 0 0" />
+  </joint>
+  
+  <link name="link_4_cover">
+    <visual>
+      <origin rpy="0 0 -1.5708" xyz="0 0 -0.07594" />
+      <geometry>
+        <mesh filename="package://annin_ar4_description/meshes/ar4_mk5/Link_4_Cover.STL" />
+      </geometry>
+      <material name="link4_cover_mat">
+        <color rgba="0 0.35 1 1" />
+      </material>
+    </visual>
+  </link>
+  <joint name="link_4_cover_joint" type="fixed">
+    <parent link="link_4" />
+    <child link="link_4_cover" />
+    <origin rpy="0 0 0" xyz="0 0 0" />
+  </joint>
+  
+  <link name="link_4_logo">
+    <visual>
+      <origin rpy="0 0 -1.5708" xyz="0 0 -0.07594" />
+      <geometry>
+        <mesh filename="package://annin_ar4_description/meshes/ar4_mk5/Link_4_Logo.STL" />
+      </geometry>
+      <material name="link4_logo_mat">
+        <color rgba="1 1 1 1" />
+      </material>
+    </visual>
+  </link>
+  <joint name="link_4_logo_joint" type="fixed">
+    <parent link="link_4" />
+    <child link="link_4_logo" />
+    <origin rpy="0 0 0" xyz="0 0 0" />
+  </joint>
+  <joint name="joint_4" type="revolute">
+    <origin rpy="1.57165173067 -4.71768602597e-07 -1.56970168522" xyz="-2.45632308219e-09 -0.000392390177666 0.000276323660266" />
+    <parent link="link_3" />
+    <child link="link_4" />
+    <axis xyz="0 0 -1" />
+    <limit effort="-1" lower="-3.141592653589793" upper="3.141592653589793" velocity="1.0472" />
+  </joint>
+  
+  
+  
+  <link name="link_5">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0.0015066 -1.3102E-05 -0.012585" />
+      <mass value="0.11562" />
+      <inertia ixx="5.5035E-05" ixy="-1.019E-08" ixz="-2.6243E-06" iyy="8.2921E-05" iyz="1.4437E-08" izz="5.2518E-05" />
+    </inertial>
+  </link>
+  
+  <link name="link_5_aluminum">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 -0.0275" />
+      <geometry>
+        <mesh filename="package://annin_ar4_description/meshes/ar4_mk5/Link_5_Aluminum.STL" />
+      </geometry>
+      <material name="aluminum_mat">
+        <color rgba="0.863 0.863 0.863 1.0" />
+      </material>
+    </visual>
+    
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 -0.0275" />
+      <geometry>
+        <mesh filename="package://annin_ar4_description/meshes/ar4_mk5/Link_5_Col.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="link_5_aluminum_joint" type="fixed">
+    <parent link="link_5" />
+    <child link="link_5_aluminum" />
+    <origin rpy="0 0 0" xyz="0 0 0" />
+  </joint>
+  
+  <link name="link_5_motor">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 -0.0275" />
+      <geometry>
+        <mesh filename="package://annin_ar4_description/meshes/ar4_mk5/Link_5_Motor.STL" />
+      </geometry>
+      <material name="motor_mat">
+        <color rgba="0.078 0.078 0.078 1.0" />
+      </material>
+    </visual>
+  </link>
+  <joint name="link_5_motor_joint" type="fixed">
+    <parent link="link_5" />
+    <child link="link_5_motor" />
+    <origin rpy="0 0 0" xyz="0 0 0" />
+  </joint>
+  <joint name="joint_5" type="revolute">
+    <origin rpy="-3.14159205238 0.000965827382235 -1.56955503292" xyz="0.000817391521474 -3.00244670813e-09 -0.223314372885" />
+    <parent link="link_4" />
+    <child link="link_5" />
+    <axis xyz="1 0 0" />
+    <limit effort="-1" lower="-1.8325957145940461" upper="1.8325957145940461" velocity="1.0472" />
+  </joint>
+  
+  
+  
+  <link name="link_6">
+    <inertial>
+      <origin rpy="0 0 0" xyz="2.9287E-10 -1.6472E-09 0.0091432" />
+      <mass value="0.013863" />
+      <inertia ixx="1.3596E-06" ixy="3.0585E-13" ixz="5.7102E-14" iyy="1.7157E-06" iyz="6.3369E-09" izz="2.4332E-06" />
+    </inertial>
+  </link>
+  
+  <link name="link_6_aluminum">
+    <visual>
+      
+      <origin rpy="0 0 0" xyz="0 0 -0.016" />
+      <geometry>
+        <mesh filename="package://annin_ar4_description/meshes/ar4_mk5/Link_6_Aluminum.STL" />
+      </geometry>
+      <material name="aluminum_mat" />
+    </visual>
+    
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 -0.016" />
+      <geometry>
+        <mesh filename="package://annin_ar4_description/meshes/ar4_mk5/Link_6_Col.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="link_6_aluminum_joint" type="fixed">
+    <parent link="link_6" />
+    <child link="link_6_aluminum" />
+    <origin rpy="0 0 0" xyz="0 0 0" />
+  </joint>
+  <joint name="joint_6" type="revolute">
+    
+    <origin rpy="0.00102875162084 -0.00011010577277 -5.66357511544e-08" xyz="0.000616664332015 0.000136384387922 0.041" />
+    <parent link="link_5" />
+    <child link="link_6" />
+    <axis xyz="0 0 1" />
+    <limit effort="-1" lower="-3.141592653589793" upper="3.141592653589793" velocity="1.5708" />
+  </joint>
+  
+  <link name="ee_link" />
+  <joint name="ee_joint" type="fixed">
+    <parent link="link_6" />
+    <child link="ee_link" />
+    <origin rpy="0 0 0" xyz="0 0 0" />
+  </joint>
+  <joint name="gripper_base_joint" type="fixed">
+    <origin rpy="-1.5708 0.0 0.0" xyz="0.0 0.0 0.0" />
+    <parent link="ee_link" />
+    <child link="gripper_base_link" />
+  </joint>
+  <link name="gripper_base_link">
+    <visual>
+      <geometry>
+        <mesh filename="file:///home/jonas/Documents/Bachelorarbeit/robocal/install/annin_ar4_description/share/annin_ar4_description/meshes/ar4_gripper/gripper_base_link.stl" />
+      </geometry>
+      <material name="">
+        <color rgba="0.627 0.627 0.627 1.0" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="file:///home/jonas/Documents/Bachelorarbeit/robocal/install/annin_ar4_description/share/annin_ar4_description/meshes/ar4_gripper/gripper_base_link.stl" />
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="-0.00073621 -0.02341392 -0.00435302" />
+      <mass value="0.08" />
+      <inertia ixx="0.00002375" ixy="0.00000002" ixz="-0.00000017" iyy="0.00004082" iyz="-0.00000029" izz="0.00004254" />
+    </inertial>
+  </link>
+  <link name="gripper_jaw1_link">
+    <visual>
+      <geometry>
+        <mesh filename="file:///home/jonas/Documents/Bachelorarbeit/robocal/install/annin_ar4_description/share/annin_ar4_description/meshes/ar4_gripper/gripper_jaw1_link.stl" />
+      </geometry>
+      <material name="">
+        <color rgba="0.078 0.078 0.078 1.0" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="file:///home/jonas/Documents/Bachelorarbeit/robocal/install/annin_ar4_description/share/annin_ar4_description/meshes/ar4_gripper/gripper_jaw1_link.stl" />
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="-0.00435839 -0.00469536 0.00757141" />
+      <mass value="0.01" />
+      <inertia ixx="0.00000123" ixy="-0.00000004" ixz="0.00000012" iyy="0.00000115" iyz="0.00000016" izz="0.00000102" />
+    </inertial>
+  </link>
+  <link name="gripper_jaw2_link">
+    <visual>
+      <geometry>
+        <mesh filename="file:///home/jonas/Documents/Bachelorarbeit/robocal/install/annin_ar4_description/share/annin_ar4_description/meshes/ar4_gripper/gripper_jaw2_link.stl" />
+      </geometry>
+      <material name="">
+        <color rgba="0.078 0.078 0.078 1.0" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="file:///home/jonas/Documents/Bachelorarbeit/robocal/install/annin_ar4_description/share/annin_ar4_description/meshes/ar4_gripper/gripper_jaw2_link.stl" />
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="-0.00423971 -0.00491236 0.00814582" />
+      <mass value="0.01" />
+      <inertia ixx="0.00000118" ixy="-0.00000004" ixz="0.00000013" iyy="0.00000110" iyz="0.00000013" izz="0.00000101" />
+    </inertial>
+  </link>
+  <joint name="gripper_jaw1_joint" type="prismatic">
+    <origin rpy="0.0 0.0 0.0" xyz="0.0 -0.036 0" />
+    <parent link="gripper_base_link" />
+    <child link="gripper_jaw1_link" />
+    <axis xyz="-1 0 0" />
+    <limit effort="-1" lower="0" upper="0.014" velocity="1.0" />
+  </joint>
+  <joint name="gripper_jaw2_joint" type="prismatic">
+    <origin rpy="0.0 -3.141592653589793 0.0" xyz="0.0 -0.036 0" />
+    <parent link="gripper_base_link" />
+    <child link="gripper_jaw2_link" />
+    <axis xyz="-1 0 0" />
+    <limit effort="1000" lower="0" upper="0.014" velocity="1.0" />
+    <mimic joint="gripper_jaw1_joint" multiplier="1" offset="0" />
+  </joint>
+  
+  <link name="charuco_board_frame_gt">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <geometry>
+        <mesh filename="package://annin_ar4_gazebo/models/charuco_5x7_35mm/charuco.obj" />
+      </geometry>
+    </visual>
+    <inertial>
+      <origin xyz="0 0 0" />
+      <mass value="0.001" />
+      <inertia ixx="1e-7" ixy="0" ixz="0" iyy="1e-7" iyz="0" izz="1e-7" />
+    </inertial>
+  </link>
+  
+  <joint name="charuco_mount_joint" type="fixed">
+    <parent link="ee_link" />
+    <child link="charuco_board_frame_gt" />
+    <origin rpy="3.141592653589793 0 0" xyz="-0.0875 0.1225 0.12" />
+  </joint>
+  
+  <link name="sim_camera_link_gt">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <geometry>
+        <box size="0.025 0.09 0.025" />
+      </geometry>
+      <material name="sim_camera_body">
+        <color rgba="0.15 0.15 0.17 1.0" />
+      </material>
+    </visual>
+    <inertial>
+      <origin xyz="0 0 0" />
+      <mass value="0.001" />
+      <inertia ixx="1e-7" ixy="0" ixz="0" iyy="1e-7" iyz="0" izz="1e-7" />
+    </inertial>
+  </link>
+  <joint name="sim_camera_mount_joint" type="fixed">
+    <parent link="base_link" />
+    <child link="sim_camera_link_gt" />
+    <origin rpy="0 0.15 1.5707963267948966" xyz="0 -0.85 0.45" />
+  </joint>
+  
+  <link name="sim_camera_color_frame_gt" />
+  <joint name="sim_camera_color_joint" type="fixed">
+    <parent link="sim_camera_link_gt" />
+    <child link="sim_camera_color_frame_gt" />
+    <origin rpy="0 0 0" xyz="0 0 0" />
+  </joint>
+  
+  <link name="sim_camera_color_optical_frame_gt" />
+  <joint name="sim_camera_optical_joint" type="fixed">
+    <parent link="sim_camera_color_frame_gt" />
+    <child link="sim_camera_color_optical_frame_gt" />
+    <origin rpy="-1.5707963267948966 0 -1.5707963267948966" xyz="0 0 0" />
+  </joint>
+  <gazebo reference="sim_camera_link_gt">
+    
+    <sensor name="sim_color" type="camera">
+      <gz_frame_id>camera_color_optical_frame</gz_frame_id>
+      <always_on>1</always_on>
+      <update_rate>15.0</update_rate>
+      <visualize>false</visualize>
+      <topic>sim_camera/color/image_raw</topic>
+      <camera>
+        <camera_info_topic>sim_camera/color/camera_info</camera_info_topic>
+        <horizontal_fov>1.2</horizontal_fov>
+        <image>
+          <width>1280</width>
+          <height>720</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.02</near>
+          <far>50.0</far>
+        </clip>
+        
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.0</stddev>
+        </noise>
+      </camera>
+    </sensor>
+  </gazebo>
+  
+  
+  <link name="tcp_tool_link">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0.075" />
+      <geometry>
+        <cylinder length="0.15" radius="0.003" />
+      </geometry>
+      <material name="tcp_tool">
+        <color rgba="0.9 0.2 0.1 1.0" />
+      </material>
+    </visual>
+    <inertial>
+      <origin xyz="0 0 0.075" />
+      <mass value="0.001" />
+      <inertia ixx="1e-7" ixy="0" ixz="0" iyy="1e-7" iyz="0" izz="1e-7" />
+    </inertial>
+  </link>
+  <joint name="tcp_tool_joint" type="fixed">
+    <parent link="ee_link" />
+    <child link="tcp_tool_link" />
+    <origin rpy="0 0 0" xyz="0 0 0" />
+  </joint>
+  <link name="tcp_tip_gt" />
+  <joint name="tcp_tip_joint" type="fixed">
+    <parent link="ee_link" />
+    <child link="tcp_tip_gt" />
+    <origin rpy="0 0 0" xyz="0 0 0.15" />
+  </joint>
+  <ros2_control name="mk5" type="system">
+    <hardware>
+      <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+      <param name="ar_model">mk5</param>
+      <param name="serial_port">None</param>
+      <param name="calibrate">False</param>
+      <param name="calib_sequence">1012345</param>
+      <param name="velocity_control_enabled">True</param>
+      <param name="tf_prefix" />
+    </hardware>
+    <joint name="joint_1">
+      <command_interface name="position">
+        <param name="min">-2.792526803190927</param>
+        <param name="max">2.792526803190927</param>
+      </command_interface>
+      <command_interface name="velocity" />
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <param name="position_offset">160.0</param>
+    </joint>
+    <joint name="joint_2">
+      <command_interface name="position">
+        <param name="min">-0.7330382858376184</param>
+        <param name="max">1.5707963267948966</param>
+      </command_interface>
+      <command_interface name="velocity" />
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <param name="position_offset">-42.0</param>
+    </joint>
+    <joint name="joint_3">
+      <command_interface name="position">
+        <param name="min">-1.5533430342749532</param>
+        <param name="max">0.9075712110370514</param>
+      </command_interface>
+      <command_interface name="velocity" />
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <param name="position_offset">-89.0</param>
+    </joint>
+    <joint name="joint_4">
+      <command_interface name="position">
+        <param name="min">-3.141592653589793</param>
+        <param name="max">3.141592653589793</param>
+      </command_interface>
+      <command_interface name="velocity" />
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <param name="position_offset">-180.0</param>
+    </joint>
+    <joint name="joint_5">
+      <command_interface name="position">
+        <param name="min">-1.8325957145940461</param>
+        <param name="max">1.8325957145940461</param>
+      </command_interface>
+      <command_interface name="velocity" />
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <param name="position_offset">-105.0</param>
+    </joint>
+    <joint name="joint_6">
+      <command_interface name="position">
+        <param name="min">-3.141592653589793</param>
+        <param name="max">3.141592653589793</param>
+      </command_interface>
+      <command_interface name="velocity" />
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <param name="position_offset">-180.0</param>
+    </joint>
+  </ros2_control>
+  <ros2_control name="ARGripperGazeboSystem" type="system">
+    <hardware>
+      <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+      <param name="serial_port">None</param>
+      <param name="use_overcurrent_protection">False</param>
+      <param name="closed_servo_angle">0</param>
+      <param name="open_servo_angle">35</param>
+      <param name="tf_prefix" />
+    </hardware>
+    <joint name="gripper_jaw1_joint">
+      <command_interface name="position" />
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+    </joint>
+    <joint name="gripper_jaw2_joint">
+      <param name="mimic">gripper_jaw1_joint</param>
+      <param name="multiplier">1</param>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+    </joint>
+  </ros2_control>
+  <gazebo reference="world" />
+  <gazebo>
+    <plugin filename="libgz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+      <parameters>/tmp/tmpi25u9qn8.yaml</parameters>
+      <ros>
+        <namespace />
+      </ros>
+    </plugin>
+  </gazebo>
+</robot>

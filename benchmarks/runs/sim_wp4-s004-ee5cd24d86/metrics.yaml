@@ -1,0 +1,2343 @@
+run_id: sim_wp4-s004-ee5cd24d86
+has_ground_truth: true
+analysis:
+  kfold: 5
+  bootstrap: 200
+  bootstrap_seed: 0
+  kfold_seed: 0
+  bootstrap_wp4: 20
+work_packages:
+  wp3:
+    num_samples: 80
+    calibration_type: eye_to_hand
+    conditioning:
+      axis_rank_ratio: 0.8633712682138701
+      num_motions: 79
+      mean_motion_angle_deg: 27.823567248617174
+    detection:
+      num_detections: 80
+      reprojection_rms_px:
+        n: 80
+        mean: 0.135092975
+        std: 0.03357250659864144
+        median: 0.1280975
+        min: 0.086711
+        max: 0.280111
+        p95: 0.1941397
+        ci95_lo: 0.096171575
+        ci95_hi: 0.19900272499999969
+      num_points_mean: 12.8375
+    variants:
+      method=PARK:
+        method: PARK
+        in_sample:
+          consistency_rms_mm: 0.5074289343634502
+          consistency_rms_deg: 0.1514024863299711
+        transform:
+          translation:
+            x: 0.002204454900930847
+            y: -0.8511589305427089
+            z: 0.4477460354036279
+          rotation:
+            x: -0.7571868017199992
+            y: -0.0006660513788275354
+            z: 0.0004450338083302083
+            w: 0.6531979069328905
+        held_out:
+          translation_mm:
+            n: 5
+            mean: 0.5151186883620937
+            std: 0.0641840003954482
+            median: 0.48078873013432744
+            min: 0.4516272223460331
+            max: 0.595664089365256
+            p95: 0.5909074119811643
+            ci95_lo: 0.45402776986343524
+            ci95_hi: 0.5932857506732101
+          rotation_deg:
+            n: 5
+            mean: 0.15315339250091622
+            std: 0.011083825991184255
+            median: 0.15151665868633196
+            min: 0.1403523069423476
+            max: 0.1695474471673708
+            p95: 0.16711397042421508
+            ci95_lo: 0.14101412487380668
+            ci95_hi: 0.16833070879579295
+        bootstrap:
+          translation_std_mm:
+          - 0.3685369388924804
+          - 0.20807079633459305
+          - 0.24290727975385146
+          translation_radius_mm:
+            n: 200
+            mean: 0.44318172473040035
+            std: 0.2017916051440779
+            median: 0.4150264029462345
+            min: 0.08075253790647557
+            max: 1.0149882979945968
+            p95: 0.8417746251613345
+            ci95_lo: 0.11780045373591969
+            ci95_hi: 0.8715272402987463
+          rotation_deg:
+            n: 200
+            mean: 0.05325728724702463
+            std: 0.024190781076115726
+            median: 0.049160795453750517
+            min: 0.0062101558903713385
+            max: 0.1339155759943802
+            p95: 0.09647196361824863
+            ci95_lo: 0.016447872625502513
+            ci95_hi: 0.10119201647405406
+        truth:
+          translation_error_mm: 3.3590322735514833
+          rotation_error_deg: 0.1850617951410454
+  wp4:
+    num_samples: 80
+    calibration_type: eye_to_hand
+    fixed_joint1: false
+    axis_alignment:
+    - 3.673205103346574e-06
+    - 0.9999999999999998
+    - 3.6732051033465735e-06
+    - 4.105798224413483e-22
+    - 4.105797856791975e-22
+    joint_range_deg:
+    - 245.96153238997897
+    - 94.1748343987907
+    - 79.09725157014279
+    - 326.4570739473851
+    - 178.21490091842765
+    - 321.2351621004786
+    detection:
+      num_detections: 80
+      reprojection_rms_px:
+        n: 80
+        mean: 0.15132392499999997
+        std: 0.17664548949558137
+        median: 0.1113325
+        min: 0.030971
+        max: 1.499319
+        p95: 0.3451013999999999
+        ci95_lo: 0.06469707499999999
+        ci95_hi: 0.38977629999999797
+      num_points_mean: 16.55
+    variants:
+      method=sequential|ridge_lambda=1e-09|extrinsic=estimated:
+        method: sequential
+        ridge_lambda: 1.0e-09
+        extrinsic_source: estimated
+        in_sample:
+          rms_before_mm: 1.1227378528739547
+          rms_after_mm: 0.786502626133266
+          converged: false
+        conditioning:
+          condition_number: 21.779341843534304
+          singular_value_min: 0.8139937468233495
+          singular_value_max: 17.728248070565044
+        held_out:
+          corrected_rms_mm:
+            n: 5
+            mean: 0.9002283209110553
+            std: 0.2623556820572803
+            median: 0.8997516743229657
+            min: 0.6327102169257495
+            max: 1.2866697330947752
+            p95: 1.2283277187488972
+            ci95_lo: 0.6381442271178145
+            ci95_hi: 1.2574987259218362
+          nominal_rms_mm:
+            n: 5
+            mean: 1.1255313927124735
+            std: 0.16908230177365005
+            median: 1.147357553589873
+            min: 0.9095244759529033
+            max: 1.2958905649457855
+            p95: 1.2917377544147182
+            ci95_lo: 0.9185478140359487
+            ci95_hi: 1.2938141596802517
+          improvement_mm:
+            n: 5
+            mean: 0.22530307180141826
+            std: 0.2613421857063911
+            median: 0.31270753793695727
+            min: -0.08543518541248285
+            max: 0.5146473366641235
+            p95: 0.4909456474558628
+            ci95_lo: -0.07804598895166721
+            ci95_hi: 0.5027964920599932
+          generalizes: true
+        bootstrap:
+          fk_spread_mm:
+            n: 20
+            mean: 0.26866127571996723
+            std: 0.09933234557508025
+            median: 0.2470821542113894
+            min: 0.09562104970015996
+            max: 0.4690054874579352
+            p95: 0.45534144298426205
+            ci95_lo: 0.11337917643296609
+            ci95_hi: 0.4621734652210986
+        truth:
+          fk_agreement:
+            position_rms_mm: 1.398678024416317
+            position_max_mm: 2.0657820953546873
+            position_mean_mm: 1.3709486279073624
+            rotation_rms_deg: 0.1887397339730976
+            rotation_max_deg: 0.2342399865163632
+            num_configs: 80
+          per_joint:
+            joint_1:
+              delta_t_perp_error_mm:
+              - -0.5339661862386559
+              - -0.9212287816070683
+              delta_r_perp_error_mdeg:
+              - 14.874832771020246
+              - -157.77870726188775
+              delta_t_perp_error_norm_mm: 1.064792165686571
+              delta_r_perp_error_norm_mdeg: 158.47833011234783
+            joint_2:
+              delta_t_perp_error_mm:
+              - 0.06406882643099966
+              - -0.06322132296923527
+              delta_r_perp_error_mdeg:
+              - 103.33736087235876
+              - -33.82464654324527
+              delta_t_perp_error_norm_mm: 0.09000972279829506
+              delta_r_perp_error_norm_mdeg: 108.73231748583113
+            joint_3:
+              delta_t_perp_error_mm:
+              - -0.25640787810684684
+              - -0.229917147673605
+              delta_r_perp_error_mdeg:
+              - 44.00267889266217
+              - 0.9299594348480585
+              delta_t_perp_error_norm_mm: 0.3443935172874511
+              delta_r_perp_error_norm_mdeg: 44.01250474900514
+            joint_4:
+              delta_t_perp_error_mm:
+              - -0.07476735390258273
+              - -0.21378582522536532
+              delta_r_perp_error_mdeg:
+              - 2.8718747894324363
+              - 34.61820299419053
+              delta_t_perp_error_norm_mm: 0.22648297127352532
+              delta_r_perp_error_norm_mdeg: 34.73712197855717
+            joint_5:
+              delta_t_perp_error_mm:
+              - 0.0031099862217446295
+              - 0.02461056091993293
+              delta_r_perp_error_mdeg:
+              - 16.83442911839306
+              - 22.99576213376125
+              delta_t_perp_error_norm_mm: 0.0248062839436537
+              delta_r_perp_error_norm_mdeg: 28.499176827668688
+            joint_6:
+              delta_t_perp_error_mm:
+              - -0.042080406900302
+              - -0.027413321353266865
+              delta_r_perp_error_mdeg:
+              - 15.895666368005019
+              - 5.824972815380411
+              delta_t_perp_error_norm_mm: 0.05022201541667221
+              delta_r_perp_error_norm_mdeg: 16.929338958826673
+          mount_offset:
+            translation_error_mm: 0.2510618781471614
+            rotation_error_deg: 0.015499165354928228
+      method=sequential|ridge_lambda=1e-09|extrinsic=truth:
+        method: sequential
+        ridge_lambda: 1.0e-09
+        extrinsic_source: truth
+        in_sample:
+          rms_before_mm: 1.6967033549397872
+          rms_after_mm: 0.7870879367095807
+          converged: false
+        conditioning:
+          condition_number: 21.783347700597528
+          singular_value_min: 0.8139603556658448
+          singular_value_max: 17.730781441971125
+        held_out:
+          corrected_rms_mm:
+            n: 5
+            mean: 0.8989741283486017
+            std: 0.26380584498109516
+            median: 0.8931705636439455
+            min: 0.6406594430893071
+            max: 1.2952278262649857
+            p95: 1.2330511816048935
+            ci95_lo: 0.6447403193584009
+            ci95_hi: 1.2641395039349397
+          nominal_rms_mm:
+            n: 5
+            mean: 1.716027741132234
+            std: 0.06990815567314033
+            median: 1.7392750173822886
+            min: 1.6018490817175393
+            max: 1.786542171897946
+            p95: 1.778457632543117
+            ci95_lo: 1.6122994694997448
+            ci95_hi: 1.7824999022205315
+          improvement_mm:
+            n: 5
+            mean: 0.8170536127836321
+            std: 0.24749969781367936
+            median: 0.8529489114798554
+            min: 0.4111251332746093
+            max: 1.0578068116020436
+            p95: 1.0384833770072812
+            ci95_lo: 0.45023237684049044
+            ci95_hi: 1.0481450943046624
+          generalizes: true
+        bootstrap:
+          fk_spread_mm:
+            n: 20
+            mean: 0.27169265910346024
+            std: 0.09883061912124569
+            median: 0.24633708770052504
+            min: 0.09993698957970969
+            max: 0.46031119201633564
+            p95: 0.4548681465800257
+            ci95_lo: 0.11457353196943118
+            ci95_hi: 0.4575896692981807
+        truth:
+          fk_agreement:
+            position_rms_mm: 0.5926630526567915
+            position_max_mm: 0.9458315211843532
+            position_mean_mm: 0.5840146219853407
+            rotation_rms_deg: 0.03187691473756074
+            rotation_max_deg: 0.07762450300059766
+            num_configs: 80
+          per_joint:
+            joint_1:
+              delta_t_perp_error_mm:
+              - -0.6223543459289216
+              - -0.008376555607019259
+              delta_r_perp_error_mdeg:
+              - 4.139294563466337
+              - 3.0753108561145788
+              delta_t_perp_error_norm_mm: 0.6224107153483568
+              delta_r_perp_error_norm_mdeg: 5.156674931084774
+            joint_2:
+              delta_t_perp_error_mm:
+              - -0.06001684068137163
+              - -0.0654388388937968
+              delta_r_perp_error_mdeg:
+              - 12.867486471220188
+              - -33.699529269841605
+              delta_t_perp_error_norm_mm: 0.08879337138064664
+              delta_r_perp_error_norm_mdeg: 36.07257242138334
+            joint_3:
+              delta_t_perp_error_mm:
+              - -0.22796278166212353
+              - -0.2774355532963444
+              delta_r_perp_error_mdeg:
+              - 45.006838318437495
+              - 0.94011844152996
+              delta_t_perp_error_norm_mm: 0.35907870454258595
+              delta_r_perp_error_norm_mdeg: 45.01665600759432
+            joint_4:
+              delta_t_perp_error_mm:
+              - -0.17535251804387134
+              - -0.21446292526176122
+              delta_r_perp_error_mdeg:
+              - 2.8820184474894637
+              - 35.01637383380826
+              delta_t_perp_error_norm_mm: 0.277025002294302
+              delta_r_perp_error_norm_mdeg: 35.13477574712384
+            joint_5:
+              delta_t_perp_error_mm:
+              - -0.03794563201804972
+              - 0.029717425355318947
+              delta_r_perp_error_mdeg:
+              - 16.66237108583359
+              - 22.676578317129763
+              delta_t_perp_error_norm_mm: 0.04819747253744945
+              delta_r_perp_error_norm_mdeg: 28.140039345653786
+            joint_6:
+              delta_t_perp_error_mm:
+              - -0.039876281701479534
+              - -0.02832524109383983
+              delta_r_perp_error_mdeg:
+              - 15.677594974422592
+              - 5.655771694966136
+              delta_t_perp_error_norm_mm: 0.04891254568472085
+              delta_r_perp_error_norm_mdeg: 16.6665754625124
+          mount_offset:
+            translation_error_mm: 0.21532593446414852
+            rotation_error_deg: 0.015518209313236605
+      method=sequential|ridge_lambda=1e-06|extrinsic=estimated:
+        method: sequential
+        ridge_lambda: 1.0e-06
+        extrinsic_source: estimated
+        in_sample:
+          rms_before_mm: 1.1227378528739547
+          rms_after_mm: 0.7865025905715265
+          converged: false
+        conditioning:
+          condition_number: 21.779325603685805
+          singular_value_min: 0.8139943548878458
+          singular_value_max: 17.72824809466457
+        held_out:
+          corrected_rms_mm:
+            n: 5
+            mean: 0.9002282505422082
+            std: 0.2623557020940472
+            median: 0.8997516692366389
+            min: 0.632710065777914
+            max: 1.286669619280567
+            p95: 1.2283276323321841
+            ci95_lo: 0.6381440805878493
+            ci95_hi: 1.2574986258063756
+          nominal_rms_mm:
+            n: 5
+            mean: 1.1255313927124735
+            std: 0.16908230177365005
+            median: 1.147357553589873
+            min: 0.9095244759529033
+            max: 1.2958905649457855
+            p95: 1.2917377544147182
+            ci95_lo: 0.9185478140359487
+            ci95_hi: 1.2938141596802517
+          improvement_mm:
+            n: 5
+            mean: 0.22530314217026542
+            std: 0.26134221825166665
+            median: 0.31270764290608977
+            min: -0.08543520858575027
+            max: 0.514647487811959
+            p95: 0.4909457693913965
+            ci95_lo: -0.07804599842618706
+            ci95_hi: 0.5027966286016777
+          generalizes: true
+        bootstrap:
+          fk_spread_mm:
+            n: 20
+            mean: 0.26866123149305526
+            std: 0.0993323363570379
+            median: 0.24708218039397628
+            min: 0.09562097854672899
+            max: 0.46900536833753337
+            p95: 0.45534138030344234
+            ci95_lo: 0.11337911329892712
+            ci95_hi: 0.46217337432048783
+        truth:
+          fk_agreement:
+            position_rms_mm: 1.398678033167246
+            position_max_mm: 2.065782082550825
+            position_mean_mm: 1.3709486388937777
+            rotation_rms_deg: 0.1887397258660052
+            rotation_max_deg: 0.23423997023173546
+            num_configs: 80
+          per_joint:
+            joint_1:
+              delta_t_perp_error_mm:
+              - -0.5339660333788351
+              - -0.9212286671404188
+              delta_r_perp_error_mdeg:
+              - 14.87481280826269
+              - -157.77868922041756
+              delta_t_perp_error_norm_mm: 1.0647919899978773
+              delta_r_perp_error_norm_mdeg: 158.4783102768135
+            joint_2:
+              delta_t_perp_error_mm:
+              - 0.06406882971917009
+              - -0.06322136041287117
+              delta_r_perp_error_mdeg:
+              - 103.33743027941378
+              - -33.82471161369929
+              delta_t_perp_error_norm_mm: 0.09000975143859785
+              delta_r_perp_error_norm_mdeg: 108.73240369136805
+            joint_3:
+              delta_t_perp_error_mm:
+              - -0.2564077744599813
+              - -0.2299170785427835
+              delta_r_perp_error_mdeg:
+              - 44.00285702021224
+              - 0.9298690968168568
+              delta_t_perp_error_norm_mm: 0.34439339396853874
+              delta_r_perp_error_norm_mdeg: 44.012680928096806
+            joint_4:
+              delta_t_perp_error_mm:
+              - -0.07476768153005002
+              - -0.213785778578595
+              delta_r_perp_error_mdeg:
+              - 2.8718804793750317
+              - 34.61830259973962
+              delta_t_perp_error_norm_mm: 0.226483035399641
+              delta_r_perp_error_norm_mdeg: 34.737221713530204
+            joint_5:
+              delta_t_perp_error_mm:
+              - 0.0031100846825216025
+              - 0.02461054664009579
+              delta_r_perp_error_mdeg:
+              - 16.834385012324127
+              - 22.995746209146922
+              delta_t_perp_error_norm_mm: 0.024806282120801288
+              delta_r_perp_error_norm_mdeg: 28.499137924833068
+            joint_6:
+              delta_t_perp_error_mm:
+              - -0.04208038412679673
+              - -0.027413337291491226
+              delta_r_perp_error_mdeg:
+              - 15.895639723650268
+              - 5.824959990482722
+              delta_t_perp_error_norm_mm: 0.05022200503480352
+              delta_r_perp_error_norm_mdeg: 16.92930952859014
+          mount_offset:
+            translation_error_mm: 0.25106182413277756
+            rotation_error_deg: 0.015499160591091776
+      method=sequential|ridge_lambda=1e-06|extrinsic=truth:
+        method: sequential
+        ridge_lambda: 1.0e-06
+        extrinsic_source: truth
+        in_sample:
+          rms_before_mm: 1.6967033549397872
+          rms_after_mm: 0.7870879290147644
+          converged: false
+        conditioning:
+          condition_number: 21.78333145630221
+          singular_value_min: 0.8139609637450856
+          singular_value_max: 17.730781465750386
+        held_out:
+          corrected_rms_mm:
+            n: 5
+            mean: 0.8989739711401127
+            std: 0.263805803322038
+            median: 0.8931705485654542
+            min: 0.6406593323576305
+            max: 1.2952277486553283
+            p95: 1.2330510081703636
+            ci95_lo: 0.644740217111032
+            ci95_hi: 1.2641393784128458
+          nominal_rms_mm:
+            n: 5
+            mean: 1.716027741132234
+            std: 0.06990815567314033
+            median: 1.7392750173822886
+            min: 1.6018490817175393
+            max: 1.786542171897946
+            p95: 1.778457632543117
+            ci95_lo: 1.6122994694997448
+            ci95_hi: 1.7824999022205315
+          improvement_mm:
+            n: 5
+            mean: 0.8170537699921214
+            std: 0.24749968060123498
+            median: 0.8529489265583468
+            min: 0.4111252108842667
+            max: 1.057806837490643
+            p95: 1.038483419864496
+            ci95_lo: 0.4502325023625841
+            ci95_hi: 1.0481451286775696
+          generalizes: true
+        bootstrap:
+          fk_spread_mm:
+            n: 20
+            mean: 0.2716926175831511
+            std: 0.09883058941858064
+            median: 0.24633709430016595
+            min: 0.09993700442710254
+            max: 0.4603111850080236
+            p95: 0.45486816031606586
+            ci95_lo: 0.11457355847298839
+            ci95_hi: 0.4575896726620447
+        truth:
+          fk_agreement:
+            position_rms_mm: 0.5926630076149626
+            position_max_mm: 0.945831376430561
+            position_mean_mm: 0.5840145853140942
+            rotation_rms_deg: 0.03187691729985762
+            rotation_max_deg: 0.0776244848930788
+            num_configs: 80
+          per_joint:
+            joint_1:
+              delta_t_perp_error_mm:
+              - -0.6223543269954451
+              - -0.008376570495720619
+              delta_r_perp_error_mdeg:
+              - 4.139285818856086
+              - 3.0753113130463334
+              delta_t_perp_error_norm_mm: 0.6224106966169711
+              delta_r_perp_error_norm_mdeg: 5.156668184238138
+            joint_2:
+              delta_t_perp_error_mm:
+              - -0.060016804199511435
+              - -0.06543885449392539
+              delta_r_perp_error_mdeg:
+              - 12.867554957037985
+              - -33.69955561943764
+              delta_t_perp_error_norm_mm: 0.08879335821895483
+              delta_r_perp_error_norm_mdeg: 36.072621467256354
+            joint_3:
+              delta_t_perp_error_mm:
+              - -0.22796265674057367
+              - -0.27743541064682314
+              delta_r_perp_error_mdeg:
+              - 45.007109583297485
+              - 0.9400326279024598
+              delta_t_perp_error_norm_mm: 0.3590785150200329
+              delta_r_perp_error_norm_mdeg: 45.016925421273164
+            joint_4:
+              delta_t_perp_error_mm:
+              - -0.17535257991043166
+              - -0.21446291555261193
+              delta_r_perp_error_mdeg:
+              - 2.88200063800502
+              - 35.0165425181703
+              delta_t_perp_error_norm_mm: 0.27702503393839895
+              delta_r_perp_error_norm_mdeg: 35.13494240217692
+            joint_5:
+              delta_t_perp_error_mm:
+              - -0.03794549238714502
+              - 0.029717384393385685
+              delta_r_perp_error_mdeg:
+              - 16.662269416378436
+              - 22.676541012392466
+              delta_t_perp_error_norm_mm: 0.04819733735059566
+              delta_r_perp_error_norm_mdeg: 28.1399490829443
+            joint_6:
+              delta_t_perp_error_mm:
+              - -0.039876209788613504
+              - -0.028325279643651714
+              delta_r_perp_error_mdeg:
+              - 15.677541100008497
+              - 5.6557265202256755
+              delta_t_perp_error_norm_mm: 0.048912509381512884
+              delta_r_perp_error_norm_mdeg: 16.66650945501306
+          mount_offset:
+            translation_error_mm: 0.21532591628307432
+            rotation_error_deg: 0.015518197441982531
+      method=sequential|ridge_lambda=0.001|extrinsic=estimated:
+        method: sequential
+        ridge_lambda: 0.001
+        extrinsic_source: estimated
+        in_sample:
+          rms_before_mm: 1.1227378528739547
+          rms_after_mm: 0.7864593663012764
+          converged: false
+        conditioning:
+          condition_number: 21.763106482806435
+          singular_value_min: 0.8146020963770209
+          singular_value_max: 17.728272164570456
+        held_out:
+          corrected_rms_mm:
+            n: 5
+            mean: 0.9000928104130868
+            std: 0.26227721165200363
+            median: 0.8997523747724211
+            min: 0.6326679597016783
+            max: 1.2864708398958586
+            p95: 1.228097153034738
+            ci95_lo: 0.6380982109420325
+            ci95_hi: 1.2572839964652984
+          nominal_rms_mm:
+            n: 5
+            mean: 1.1255313927124735
+            std: 0.16908230177365005
+            median: 1.147357553589873
+            min: 0.9095244759529033
+            max: 1.2958905649457855
+            p95: 1.2917377544147182
+            ci95_lo: 0.9185478140359487
+            ci95_hi: 1.2938141596802517
+          improvement_mm:
+            n: 5
+            mean: 0.2254385822993868
+            std: 0.2612091918935965
+            median: 0.3127873846781374
+            min: -0.08507792963735272
+            max: 0.5146895938881947
+            p95: 0.4909793131452286
+            ci95_lo: -0.07770456943415845
+            ci95_hi: 0.5028344535167116
+          generalizes: true
+        bootstrap:
+          fk_spread_mm:
+            n: 20
+            mean: 0.2686189870505876
+            std: 0.09931646042693425
+            median: 0.24707624928089433
+            min: 0.09559075347884674
+            max: 0.4689401963432657
+            p95: 0.4552895926509774
+            ci95_lo: 0.11335837166780643
+            ci95_hi: 0.4621148944971215
+        truth:
+          fk_agreement:
+            position_rms_mm: 1.3986652900146492
+            position_max_mm: 2.0657444181262545
+            position_mean_mm: 1.370938782650235
+            rotation_rms_deg: 0.18874134389381997
+            rotation_max_deg: 0.23423337872008382
+            num_configs: 80
+          per_joint:
+            joint_1:
+              delta_t_perp_error_mm:
+              - -0.5338191700594278
+              - -0.921135384647241
+              delta_r_perp_error_mdeg:
+              - 14.863161256042785
+              - -157.75994033020189
+              delta_t_perp_error_norm_mm: 1.0646376393741472
+              delta_r_perp_error_norm_mdeg: 158.45855084378374
+            joint_2:
+              delta_t_perp_error_mm:
+              - 0.06407462282257774
+              - -0.06324479536174267
+              delta_r_perp_error_mdeg:
+              - 103.42331838134895
+              - -33.90656870634208
+              delta_t_perp_error_norm_mm: 0.0900303361662296
+              delta_r_perp_error_norm_mdeg: 108.83950655183882
+            joint_3:
+              delta_t_perp_error_mm:
+              - -0.2563448184016113
+              - -0.22985698723232523
+              delta_r_perp_error_mdeg:
+              - 44.16096528582536
+              - 0.8218531140131218
+              delta_t_perp_error_norm_mm: 0.3443064049663851
+              delta_r_perp_error_norm_mdeg: 44.16861213030002
+            joint_4:
+              delta_t_perp_error_mm:
+              - -0.07520160353171784
+              - -0.21374591653107794
+              delta_r_perp_error_mdeg:
+              - 2.8849004726671863
+              - 34.68805875202016
+              delta_t_perp_error_norm_mm: 0.22658905094344742
+              delta_r_perp_error_norm_mdeg: 34.80781623027791
+            joint_5:
+              delta_t_perp_error_mm:
+              - 0.0031882434947457516
+              - 0.024613042020899888
+              delta_r_perp_error_mdeg:
+              - 16.806602211873944
+              - 22.99068094457549
+              delta_t_perp_error_norm_mm: 0.024818677122368394
+              delta_r_perp_error_norm_mdeg: 28.478646179259165
+            joint_6:
+              delta_t_perp_error_mm:
+              - -0.042075317754626126
+              - -0.0274235065695507
+              delta_r_perp_error_mdeg:
+              - 15.880510925074962
+              - 5.825859460935533
+              delta_t_perp_error_norm_mm: 0.050223312084359255
+              delta_r_perp_error_norm_mdeg: 16.915415031857698
+          mount_offset:
+            translation_error_mm: 0.2510328509739454
+            rotation_error_deg: 0.015500867069587409
+      method=sequential|ridge_lambda=0.001|extrinsic=truth:
+        method: sequential
+        ridge_lambda: 0.001
+        extrinsic_source: truth
+        in_sample:
+          rms_before_mm: 1.6967033549397872
+          rms_after_mm: 0.7870504116142838
+          converged: false
+        conditioning:
+          condition_number: 21.767108092198562
+          singular_value_min: 0.8145687196491797
+          singular_value_max: 17.73080536912748
+        held_out:
+          corrected_rms_mm:
+            n: 5
+            mean: 0.8988439571909952
+            std: 0.26373615063086714
+            median: 0.8931620265357322
+            min: 0.6406024887782418
+            max: 1.2950526408505052
+            p95: 1.232839629000587
+            ci95_lo: 0.6446837447193758
+            ci95_hi: 1.263946134925546
+          nominal_rms_mm:
+            n: 5
+            mean: 1.716027741132234
+            std: 0.06990815567314033
+            median: 1.7392750173822886
+            min: 1.6018490817175393
+            max: 1.786542171897946
+            p95: 1.778457632543117
+            ci95_lo: 1.6122994694997448
+            ci95_hi: 1.7824999022205315
+          improvement_mm:
+            n: 5
+            mean: 0.8171837839412387
+            std: 0.2474440718817313
+            median: 0.8529574485880688
+            min: 0.4113003186890898
+            max: 1.0578599691927058
+            p95: 1.038537293942024
+            ci95_lo: 0.450425745849884
+            ci95_hi: 1.0481986315673648
+          generalizes: true
+        bootstrap:
+          fk_spread_mm:
+            n: 20
+            mean: 0.2716534182605132
+            std: 0.09881732355953698
+            median: 0.24629961692203767
+            min: 0.09990105221700818
+            max: 0.46025660205664015
+            p95: 0.4548171089996508
+            ci95_lo: 0.11454639942153563
+            ci95_hi: 0.45753685552814544
+        truth:
+          fk_agreement:
+            position_rms_mm: 0.5926175878990211
+            position_max_mm: 0.9458244329269577
+            position_mean_mm: 0.5839694454249494
+            rotation_rms_deg: 0.03190486889452764
+            rotation_max_deg: 0.07773077741787242
+            num_configs: 80
+          per_joint:
+            joint_1:
+              delta_t_perp_error_mm:
+              - -0.6222774995592257
+              - -0.008293771697244118
+              delta_r_perp_error_mdeg:
+              - 4.128123579009969
+              - 3.0809488133585567
+              delta_t_perp_error_norm_mm: 0.6223327671805883
+              delta_r_perp_error_norm_mdeg: 5.15108239830364
+            joint_2:
+              delta_t_perp_error_mm:
+              - -0.05996514909321269
+              - -0.06545858762956284
+              delta_r_perp_error_mdeg:
+              - 12.988643077727273
+              - -33.7832187601833
+              delta_t_perp_error_norm_mm: 0.08877300152765132
+              delta_r_perp_error_norm_mdeg: 36.1940702159759
+            joint_3:
+              delta_t_perp_error_mm:
+              - -0.22790534384377575
+              - -0.27737098759028206
+              delta_r_perp_error_mdeg:
+              - 45.195539289601726
+              - 0.8196680649305671
+              delta_t_perp_error_norm_mm: 0.3589923543884438
+              delta_r_perp_error_norm_mdeg: 45.20297144452564
+            joint_4:
+              delta_t_perp_error_mm:
+              - -0.17580451638584702
+              - -0.2144433011307337
+              delta_r_perp_error_mdeg:
+              - 2.887481060050819
+              - 35.082303216048246
+              delta_t_perp_error_norm_mm: 0.2772961546460897
+              delta_r_perp_error_norm_mdeg: 35.20093103619422
+            joint_5:
+              delta_t_perp_error_mm:
+              - -0.03787576688057254
+              - 0.02972901141701429
+              delta_r_perp_error_mdeg:
+              - 16.627720486559333
+              - 22.66991683542303
+              delta_t_perp_error_norm_mm: 0.048149640046675754
+              delta_r_perp_error_norm_mdeg: 28.114164008629917
+            joint_6:
+              delta_t_perp_error_mm:
+              - -0.03986716795088566
+              - -0.028335172867101528
+              delta_r_perp_error_mdeg:
+              - 15.660665321640309
+              - 5.655963670525929
+              delta_t_perp_error_norm_mm: 0.0489108689539723
+              delta_r_perp_error_norm_mdeg: 16.6507166019585
+          mount_offset:
+            translation_error_mm: 0.21531146030117446
+            rotation_error_deg: 0.015521416714379893
+      method=joint_trf|ridge_lambda=1e-09|extrinsic=estimated:
+        method: joint_trf
+        ridge_lambda: 1.0e-09
+        extrinsic_source: estimated
+        in_sample:
+          rms_before_mm: 1.1227378528739547
+          rms_after_mm: 0.7864738439183898
+          converged: true
+        conditioning:
+          condition_number: 21.779516545349725
+          singular_value_min: 0.8139870283406084
+          singular_value_max: 17.728243951444338
+        held_out:
+          corrected_rms_mm:
+            n: 5
+            mean: 0.9002235637440501
+            std: 0.2625511382180472
+            median: 0.8987062175293158
+            min: 0.6345270646176439
+            max: 1.2885062212481753
+            p95: 1.229416320874134
+            ci95_lo: 0.6397065177505941
+            ci95_hi: 1.2589612710611546
+          nominal_rms_mm:
+            n: 5
+            mean: 1.1255313927124735
+            std: 0.16908230177365005
+            median: 1.147357553589873
+            min: 0.9095244759529033
+            max: 1.2958905649457855
+            p95: 1.2917377544147182
+            ci95_lo: 0.9185478140359487
+            ci95_hi: 1.2938141596802517
+          improvement_mm:
+            n: 5
+            mean: 0.22530782896842344
+            std: 0.2609268907137705
+            median: 0.3134362608362107
+            min: -0.08353224342506571
+            max: 0.5128304889722292
+            p95: 0.4897012606610772
+            ci95_lo: -0.0765169899783318
+            ci95_hi: 0.5012658748166532
+          generalizes: true
+        bootstrap:
+          fk_spread_mm:
+            n: 20
+            mean: 0.2721314761150121
+            std: 0.10093894138640747
+            median: 0.2516894451366957
+            min: 0.09548476816341576
+            max: 0.4772453199922541
+            p95: 0.45588362369218677
+            ci95_lo: 0.11306382963893111
+            ci95_hi: 0.4665644718422204
+        truth:
+          fk_agreement:
+            position_rms_mm: 1.4044924956328515
+            position_max_mm: 2.076826416186024
+            position_mean_mm: 1.376533317720115
+            rotation_rms_deg: 0.18874280458296155
+            rotation_max_deg: 0.23415811004373457
+            num_configs: 80
+          per_joint:
+            joint_1:
+              delta_t_perp_error_mm:
+              - -0.5214692529905618
+              - -0.9227265546364491
+              delta_r_perp_error_mdeg:
+              - 14.968517242570176
+              - -157.7632327936269
+              delta_t_perp_error_norm_mm: 1.0598841806753163
+              delta_r_perp_error_norm_mdeg: 158.47174552562117
+            joint_2:
+              delta_t_perp_error_mm:
+              - 0.06558876241627586
+              - -0.06357630322582061
+              delta_r_perp_error_mdeg:
+              - 103.448318779055
+              - -33.80135986143352
+              delta_t_perp_error_norm_mm: 0.09134457886027045
+              delta_r_perp_error_norm_mdeg: 108.83054068916091
+            joint_3:
+              delta_t_perp_error_mm:
+              - -0.25144959959034974
+              - -0.23849214689264245
+              delta_r_perp_error_mdeg:
+              - 44.19571116253957
+              - 0.9047604416854
+              delta_t_perp_error_norm_mm: 0.34656226751279334
+              delta_r_perp_error_norm_mdeg: 44.20497117541717
+            joint_4:
+              delta_t_perp_error_mm:
+              - -0.07450575931682255
+              - -0.21392820142777103
+              delta_r_perp_error_mdeg:
+              - 2.8924891902156284
+              - 34.686795757020136
+              delta_t_perp_error_norm_mm: 0.22653119771346564
+              delta_r_perp_error_norm_mdeg: 34.80718738428522
+            joint_5:
+              delta_t_perp_error_mm:
+              - -0.004252824886092948
+              - 0.025531812046385445
+              delta_r_perp_error_mdeg:
+              - 16.79086712936158
+              - 22.9451121473308
+              delta_t_perp_error_norm_mm: 0.025883584486769303
+              delta_r_perp_error_norm_mdeg: 28.43257621830042
+            joint_6:
+              delta_t_perp_error_mm:
+              - -0.04168579842307599
+              - -0.02758193445538422
+              delta_r_perp_error_mdeg:
+              - 15.858343148499113
+              - 5.794676188528723
+              delta_t_perp_error_norm_mm: 0.04998468663971432
+              delta_r_perp_error_norm_mdeg: 16.8838775032707
+          mount_offset:
+            translation_error_mm: 0.24372289512821338
+            rotation_error_deg: 0.015509843784541297
+      method=joint_trf|ridge_lambda=1e-09|extrinsic=truth:
+        method: joint_trf
+        ridge_lambda: 1.0e-09
+        extrinsic_source: truth
+        in_sample:
+          rms_before_mm: 1.6967033549397872
+          rms_after_mm: 0.7864738386514332
+          converged: true
+        conditioning:
+          condition_number: 21.782535061903644
+          singular_value_min: 0.8139916105003367
+          singular_value_max: 17.730800795819
+        held_out:
+          corrected_rms_mm:
+            n: 5
+            mean: 0.9002236213793825
+            std: 0.2625511013288326
+            median: 0.8987062073874477
+            min: 0.6345270714429921
+            max: 1.2885062468461292
+            p95: 1.2294163478682916
+            ci95_lo: 0.6397065472250332
+            ci95_hi: 1.2589612973572104
+          nominal_rms_mm:
+            n: 5
+            mean: 1.716027741132234
+            std: 0.06990815567314033
+            median: 1.7392750173822886
+            min: 1.6018490817175393
+            max: 1.786542171897946
+            p95: 1.778457632543117
+            ci95_lo: 1.6122994694997448
+            ci95_hi: 1.7824999022205315
+          improvement_mm:
+            n: 5
+            mean: 0.8158041197528514
+            std: 0.24447122131550916
+            median: 0.8474132677363533
+            min: 0.41784671269346574
+            max: 1.0529531881188863
+            p95: 1.0358269525500183
+            ci95_lo: 0.4554105834182196
+            ci95_hi: 1.0443900703344524
+          generalizes: true
+        bootstrap:
+          fk_spread_mm:
+            n: 20
+            mean: 0.2721315046913322
+            std: 0.10093894821220543
+            median: 0.2516894690695404
+            min: 0.09548477578417802
+            max: 0.47724536254794964
+            p95: 0.4558836082250088
+            ci95_lo: 0.11306384899759116
+            ci95_hi: 0.46656448538647916
+        truth:
+          fk_agreement:
+            position_rms_mm: 0.651755566820598
+            position_max_mm: 0.9956375737836156
+            position_mean_mm: 0.6438522045635935
+            rotation_rms_deg: 0.03198764267141464
+            rotation_max_deg: 0.07768850257890807
+            num_configs: 80
+          per_joint:
+            joint_1:
+              delta_t_perp_error_mm:
+              - -0.6804689754046087
+              - -0.0026074146495356754
+              delta_r_perp_error_mdeg:
+              - 3.897886965277779
+              - 2.9938403743117954
+              delta_t_perp_error_norm_mm: 0.6804739709197939
+              delta_r_perp_error_norm_mdeg: 4.914936721967211
+            joint_2:
+              delta_t_perp_error_mm:
+              - -0.06733846975418521
+              - -0.06341386612293964
+              delta_r_perp_error_mdeg:
+              - 12.385164086015983
+              - -33.801274919141484
+              delta_t_perp_error_norm_mm: 0.09249750226624193
+              delta_r_perp_error_norm_mdeg: 35.99886769881691
+            joint_3:
+              delta_t_perp_error_mm:
+              - -0.25125254011189596
+              - -0.23781364955614448
+              delta_r_perp_error_mdeg:
+              - 44.195843363780135
+              - 0.9049359123385432
+              delta_t_perp_error_norm_mm: 0.3459525557470165
+              delta_r_perp_error_norm_mdeg: 44.205106940728335
+            joint_4:
+              delta_t_perp_error_mm:
+              - -0.17636216584478862
+              - -0.21392820394311254
+              delta_r_perp_error_mdeg:
+              - 2.8004865831800285
+              - 34.68676120589997
+              delta_t_perp_error_norm_mm: 0.2772523940091242
+              delta_r_perp_error_norm_mdeg: 34.79962827470573
+            joint_5:
+              delta_t_perp_error_mm:
+              - -0.004252250803041003
+              - 0.02553186072753254
+              delta_r_perp_error_mdeg:
+              - 16.790931158284046
+              - 22.945117224695966
+              delta_t_perp_error_norm_mm: 0.025883538187467366
+              delta_r_perp_error_norm_mdeg: 28.432618128080886
+            joint_6:
+              delta_t_perp_error_mm:
+              - -0.041685719870445316
+              - -0.027581930759047052
+              delta_r_perp_error_mdeg:
+              - 15.858344690678317
+              - 5.794673891763078
+              delta_t_perp_error_norm_mm: 0.04998461908941695
+              delta_r_perp_error_norm_mdeg: 16.88387816350988
+          mount_offset:
+            translation_error_mm: 0.2437228773684993
+            rotation_error_deg: 0.015509843736907565
+      method=joint_trf|ridge_lambda=1e-06|extrinsic=estimated:
+        method: joint_trf
+        ridge_lambda: 1.0e-06
+        extrinsic_source: estimated
+        in_sample:
+          rms_before_mm: 1.1227378528739547
+          rms_after_mm: 0.786473801127101
+          converged: true
+        conditioning:
+          condition_number: 21.779500305877633
+          singular_value_min: 0.8139876363877879
+          singular_value_max: 17.72824397568844
+        held_out:
+          corrected_rms_mm:
+            n: 5
+            mean: 0.9002234280416346
+            std: 0.26255105916017885
+            median: 0.8987062182609492
+            min: 0.6345270232023931
+            max: 1.2885060212951116
+            p95: 1.2294160891534565
+            ci95_lo: 0.6397064725684419
+            ci95_hi: 1.258961055224284
+          nominal_rms_mm:
+            n: 5
+            mean: 1.1255313927124735
+            std: 0.16908230177365005
+            median: 1.147357553589873
+            min: 0.9095244759529033
+            max: 1.2958905649457855
+            p95: 1.2917377544147182
+            ci95_lo: 0.9185478140359487
+            ci95_hi: 1.2938141596802517
+          improvement_mm:
+            n: 5
+            mean: 0.22530796467083913
+            std: 0.2609267567837909
+            median: 0.3134363399204756
+            min: -0.08353188463393335
+            max: 0.5128305303874799
+            p95: 0.4897012936469512
+            ci95_lo: -0.0765166470710063
+            ci95_hi: 0.5012659120172156
+          generalizes: true
+        bootstrap:
+          fk_spread_mm:
+            n: 20
+            mean: 0.27213143461959954
+            std: 0.10093892601141048
+            median: 0.25168944220969214
+            min: 0.09548473657959837
+            max: 0.47724525296280407
+            p95: 0.45588357255733203
+            ci95_lo: 0.11306380835512199
+            ci95_hi: 0.466564412760068
+        truth:
+          fk_agreement:
+            position_rms_mm: 1.4044924835086638
+            position_max_mm: 2.076826378726032
+            position_mean_mm: 1.3765333083450297
+            rotation_rms_deg: 0.18874280599098142
+            rotation_max_deg: 0.23415810361564224
+            num_configs: 80
+          per_joint:
+            joint_1:
+              delta_t_perp_error_mm:
+              - -0.5214691056535289
+              - -0.9227264600417127
+              delta_r_perp_error_mdeg:
+              - 14.968505409949035
+              - -157.7632140459981
+              delta_t_perp_error_norm_mm: 1.0598840258312232
+              delta_r_perp_error_norm_mdeg: 158.4717257441563
+            joint_2:
+              delta_t_perp_error_mm:
+              - 0.06558876888465671
+              - -0.06357632733337486
+              delta_r_perp_error_mdeg:
+              - 103.44840281987713
+              - -33.80144093728366
+              delta_t_perp_error_norm_mm: 0.09134460028378985
+              delta_r_perp_error_norm_mdeg: 108.83064575486189
+            joint_3:
+              delta_t_perp_error_mm:
+              - -0.25144953503133605
+              - -0.23849208866285995
+              delta_r_perp_error_mdeg:
+              - 44.1958650072789
+              - 0.9046546910082058
+              delta_t_perp_error_norm_mm: 0.346562180600031
+              delta_r_perp_error_norm_mdeg: 44.205122823622865
+            joint_4:
+              delta_t_perp_error_mm:
+              - -0.07450618909153034
+              - -0.21392816177118826
+              delta_r_perp_error_mdeg:
+              - 2.8925020726567974
+              - 34.68686341864649
+              delta_t_perp_error_norm_mm: 0.22653130161578677
+              delta_r_perp_error_norm_mdeg: 34.80725588241854
+            joint_5:
+              delta_t_perp_error_mm:
+              - -0.004252748056420192
+              - 0.025531814891297622
+              delta_r_perp_error_mdeg:
+              - 16.790840966293928
+              - 22.945107301598632
+              delta_t_perp_error_norm_mm: 0.02588357466956357
+              delta_r_perp_error_norm_mdeg: 28.432556857188363
+            joint_6:
+              delta_t_perp_error_mm:
+              - -0.0416857930223677
+              - -0.027581944280576094
+              delta_r_perp_error_mdeg:
+              - 15.858328338158506
+              - 5.794677106244605
+              delta_t_perp_error_norm_mm: 0.04998468755729582
+              delta_r_perp_error_norm_mdeg: 16.883863907485054
+          mount_offset:
+            translation_error_mm: 0.24372286609027896
+            rotation_error_deg: 0.015509845451233085
+      method=joint_trf|ridge_lambda=1e-06|extrinsic=truth:
+        method: joint_trf
+        ridge_lambda: 1.0e-06
+        extrinsic_source: truth
+        in_sample:
+          rms_before_mm: 1.6967033549397872
+          rms_after_mm: 0.7864738004472857
+          converged: true
+        conditioning:
+          condition_number: 21.782518822989907
+          singular_value_min: 0.8139922184366225
+          singular_value_max: 17.730800819863042
+        held_out:
+          corrected_rms_mm:
+            n: 5
+            mean: 0.9002234897330006
+            std: 0.2625510298438624
+            median: 0.8987061975991746
+            min: 0.6345270170795857
+            max: 1.2885060711131608
+            p95: 1.2294161350475243
+            ci95_lo: 0.6397064925804374
+            ci95_hi: 1.2589611030803427
+          nominal_rms_mm:
+            n: 5
+            mean: 1.716027741132234
+            std: 0.06990815567314033
+            median: 1.7392750173822886
+            min: 1.6018490817175393
+            max: 1.786542171897946
+            p95: 1.778457632543117
+            ci95_lo: 1.6122994694997448
+            ci95_hi: 1.7824999022205315
+          improvement_mm:
+            n: 5
+            mean: 0.8158042513992335
+            std: 0.2444711641619574
+            median: 0.8474132775246264
+            min: 0.41784688842643414
+            max: 1.0529532452941859
+            p95: 1.0358270091629393
+            ci95_lo: 0.4554107776950874
+            ci95_hi: 1.0443901272285627
+          generalizes: true
+        bootstrap:
+          fk_spread_mm:
+            n: 20
+            mean: 0.27213146548678435
+            std: 0.10093893530233536
+            median: 0.25168946121519575
+            min: 0.09548473917942231
+            max: 0.47724530597193066
+            p95: 0.4558835567128967
+            ci95_lo: 0.11306382266014832
+            ci95_hi: 0.46656443134241365
+        truth:
+          fk_agreement:
+            position_rms_mm: 0.6517555061964309
+            position_max_mm: 0.995637554758756
+            position_mean_mm: 0.6438521442935696
+            rotation_rms_deg: 0.03198767034775285
+            rotation_max_deg: 0.07768860936741237
+            num_configs: 80
+          per_joint:
+            joint_1:
+              delta_t_perp_error_mm:
+              - -0.6804688834712114
+              - -0.002607333153230684
+              delta_r_perp_error_mdeg:
+              - 3.897875781332107
+              - 2.9938460108408815
+              delta_t_perp_error_norm_mm: 0.6804738786748019
+              delta_r_perp_error_norm_mdeg: 4.914931285717354
+            joint_2:
+              delta_t_perp_error_mm:
+              - -0.06733841353964816
+              - -0.06341388832227621
+              delta_r_perp_error_mdeg:
+              - 12.385285814628707
+              - -33.80135902138293
+              delta_t_perp_error_norm_mm: 0.09249747656118404
+              delta_r_perp_error_norm_mdeg: 35.99898854693654
+            joint_3:
+              delta_t_perp_error_mm:
+              - -0.25125247069855516
+              - -0.23781360515032135
+              delta_r_perp_error_mdeg:
+              - 44.19603374642047
+              - 0.904815341888565
+              delta_t_perp_error_norm_mm: 0.3459524748093606
+              delta_r_perp_error_norm_mdeg: 44.205294815413836
+            joint_4:
+              delta_t_perp_error_mm:
+              - -0.17636261995753294
+              - -0.21392818340029743
+              delta_r_perp_error_mdeg:
+              - 2.8004918727024743
+              - 34.68682826758855
+              delta_t_perp_error_norm_mm: 0.2772526670227655
+              delta_r_perp_error_norm_mdeg: 34.799695544562645
+            joint_5:
+              delta_t_perp_error_mm:
+              - -0.0042521989728261855
+              - 0.025531873339645152
+              delta_r_perp_error_mdeg:
+              - 16.790896653204722
+              - 22.945110449530567
+              delta_t_perp_error_norm_mm: 0.025883542113400687
+              delta_r_perp_error_norm_mdeg: 28.432592283500256
+            joint_6:
+              delta_t_perp_error_mm:
+              - -0.04168571000423207
+              - -0.02758194097894358
+              delta_r_perp_error_mdeg:
+              - 15.858327590449692
+              - 5.794673883494671
+              delta_t_perp_error_norm_mm: 0.0499846165007081
+              delta_r_perp_error_norm_mdeg: 16.883862099119177
+          mount_offset:
+            translation_error_mm: 0.24372284720561985
+            rotation_error_deg: 0.015509846774079178
+      method=joint_trf|ridge_lambda=0.001|extrinsic=estimated:
+        method: joint_trf
+        ridge_lambda: 0.001
+        extrinsic_source: estimated
+        in_sample:
+          rms_before_mm: 1.1227378528739547
+          rms_after_mm: 0.7864307123787329
+          converged: true
+        conditioning:
+          condition_number: 21.76328080478997
+          singular_value_min: 0.8145953821859908
+          singular_value_max: 17.728268044798924
+        held_out:
+          corrected_rms_mm:
+            n: 5
+            mean: 0.900088159737221
+            std: 0.2624735705442961
+            median: 0.8987067849168584
+            min: 0.6344843062430464
+            max: 1.2883086277980924
+            p95: 1.2291867480063383
+            ci95_lo: 0.6396600607076203
+            ci95_hi: 1.2587476879022155
+          nominal_rms_mm:
+            n: 5
+            mean: 1.1255313927124735
+            std: 0.16908230177365005
+            median: 1.147357553589873
+            min: 0.9095244759529033
+            max: 1.2958905649457855
+            p95: 1.2917377544147182
+            ci95_lo: 0.9185478140359487
+            ci95_hi: 1.2938141596802517
+          improvement_mm:
+            n: 5
+            mean: 0.22544323297525265
+            std: 0.26079434432591486
+            median: 0.3135160058945724
+            min: -0.08317475288641907
+            max: 0.5128732473468266
+            p95: 0.4897353538832467
+            ci95_lo: -0.07617548914854153
+            ci95_hi: 0.5013043006150366
+          generalizes: true
+        bootstrap:
+          fk_spread_mm:
+            n: 20
+            mean: 0.27208964234962785
+            std: 0.10092290082907754
+            median: 0.251684894363838
+            min: 0.09545368216491823
+            max: 0.47717777405058337
+            p95: 0.4558319169858935
+            ci95_lo: 0.1130426001772213
+            ci95_hi: 0.4665048455182384
+        truth:
+          fk_agreement:
+            position_rms_mm: 1.404480212987677
+            position_max_mm: 2.076787583174656
+            position_mean_mm: 1.3765238672821576
+            rotation_rms_deg: 0.18874442684481355
+            rotation_max_deg: 0.23415149569850435
+            num_configs: 80
+          per_joint:
+            joint_1:
+              delta_t_perp_error_mm:
+              - -0.5213224171847175
+              - -0.9226332320007837
+              delta_r_perp_error_mdeg:
+              - 14.956872956487892
+              - -157.74449420323404
+              delta_t_perp_error_norm_mm: 1.0597306938328854
+              delta_r_perp_error_norm_mdeg: 158.4519911521173
+            joint_2:
+              delta_t_perp_error_mm:
+              - 0.06559405460645
+              - -0.06359914760306455
+              delta_r_perp_error_mdeg:
+              - 103.53414381533753
+              - -33.88327773396628
+              delta_t_perp_error_norm_mm: 0.09136427953828748
+              delta_r_perp_error_norm_mdeg: 108.93757591195101
+            joint_3:
+              delta_t_perp_error_mm:
+              - -0.2513876583643204
+              - -0.23842968400243178
+              delta_r_perp_error_mdeg:
+              - 44.35374062856167
+              - 0.7966851691756399
+              delta_t_perp_error_norm_mm: 0.34647434102887875
+              delta_r_perp_error_norm_mdeg: 44.36089511049688
+            joint_4:
+              delta_t_perp_error_mm:
+              - -0.07493990615131685
+              - -0.21388859127843465
+              delta_r_perp_error_mdeg:
+              - 2.9054948283107516
+              - 34.75652831375304
+              delta_t_perp_error_norm_mm: 0.22663697627051385
+              delta_r_perp_error_norm_mdeg: 34.877760258108
+            joint_5:
+              delta_t_perp_error_mm:
+              - -0.0041727380258996735
+              - 0.02553436999058378
+              delta_r_perp_error_mdeg:
+              - 16.76308933426552
+              - 22.940046799443778
+              delta_t_perp_error_norm_mm: 0.025873070815981905
+              delta_r_perp_error_norm_mdeg: 28.412090933073493
+            joint_6:
+              delta_t_perp_error_mm:
+              - -0.04168064736406799
+              - -0.0275921405758201
+              delta_r_perp_error_mdeg:
+              - 15.8432039563795
+              - 5.795565302903414
+              delta_t_perp_error_norm_mm: 0.0499860239091249
+              delta_r_perp_error_norm_mdeg: 16.869964101433556
+          mount_offset:
+            translation_error_mm: 0.24369483577149142
+            rotation_error_deg: 0.015511586331574803
+      method=joint_trf|ridge_lambda=0.001|extrinsic=truth:
+        method: joint_trf
+        ridge_lambda: 0.001
+        extrinsic_source: truth
+        in_sample:
+          rms_before_mm: 1.6967033549397872
+          rms_after_mm: 0.7864358230794354
+          converged: true
+        conditioning:
+          condition_number: 21.766297434100046
+          singular_value_min: 0.8145999463359482
+          singular_value_max: 17.730824721750185
+        held_out:
+          corrected_rms_mm:
+            n: 5
+            mean: 0.9000922629793224
+            std: 0.26247919525528646
+            median: 0.8986966826869878
+            min: 0.6344731135558012
+            max: 1.288329199759518
+            p95: 1.2292028620053457
+            ci95_lo: 0.6396522829907859
+            ci95_hi: 1.258766030882432
+          nominal_rms_mm:
+            n: 5
+            mean: 1.716027741132234
+            std: 0.06990815567314033
+            median: 1.7392750173822886
+            min: 1.6018490817175393
+            max: 1.786542171897946
+            p95: 1.778457632543117
+            ci95_lo: 1.6122994694997448
+            ci95_hi: 1.7824999022205315
+          improvement_mm:
+            n: 5
+            mean: 0.8159354781529116
+            std: 0.24441350260984862
+            median: 0.8474227924368132
+            min: 0.4180237597800769
+            max: 1.05301020947664
+            p95: 1.0358833612136595
+            ci95_lo: 0.4556058498929981
+            ci95_hi: 1.0444467853451498
+          generalizes: true
+        bootstrap:
+          fk_spread_mm:
+            n: 20
+            mean: 0.27209238222827625
+            std: 0.10092610827434105
+            median: 0.25168126383251943
+            min: 0.0954492789883821
+            max: 0.4771878791153884
+            p95: 0.45583240704797
+            ci95_lo: 0.11303755128751959
+            ci95_hi: 0.46651014308167915
+        truth:
+          fk_agreement:
+            position_rms_mm: 0.6516948581242694
+            position_max_mm: 0.9956185094391035
+            position_mean_mm: 0.6437918872514148
+            rotation_rms_deg: 0.032015194599857626
+            rotation_max_deg: 0.07779477289997289
+            num_configs: 80
+          per_joint:
+            joint_1:
+              delta_t_perp_error_mm:
+              - -0.6803766558265276
+              - -0.0025274374173719204
+              delta_r_perp_error_mdeg:
+              - 3.8869272973016544
+              - 2.9996055284406253
+              delta_t_perp_error_norm_mm: 0.6803813502247016
+              delta_r_perp_error_norm_mdeg: 4.9097695608613146
+            joint_2:
+              delta_t_perp_error_mm:
+              - -0.06728267411405338
+              - -0.06343649658693538
+              delta_r_perp_error_mdeg:
+              - 12.506926157707529
+              - -33.88479179274184
+              delta_t_perp_error_norm_mm: 0.09247241391443274
+              delta_r_perp_error_norm_mdeg: 36.119279017607944
+            joint_3:
+              delta_t_perp_error_mm:
+              - -0.25118418333159476
+              - -0.23776996146732335
+              delta_r_perp_error_mdeg:
+              - 44.3860688857631
+              - 0.7843625901113541
+              delta_t_perp_error_norm_mm: 0.34587287915089937
+              delta_r_perp_error_norm_mdeg: 44.392998725074584
+            joint_4:
+              delta_t_perp_error_mm:
+              - -0.17681307818651198
+              - -0.21390752950558956
+              delta_r_perp_error_mdeg:
+              - 2.8060407237706406
+              - 34.75347826672766
+              delta_t_perp_error_norm_mm: 0.2775235049450303
+              delta_r_perp_error_norm_mdeg: 34.86657591704943
+            joint_5:
+              delta_t_perp_error_mm:
+              - -0.004199984167678287
+              - 0.02554420970864717
+              delta_r_perp_error_mdeg:
+              - 16.755917520569586
+              - 22.93831228705668
+              delta_t_perp_error_norm_mm: 0.025887188272349947
+              delta_r_perp_error_norm_mdeg: 28.40645952128963
+            joint_6:
+              delta_t_perp_error_mm:
+              - -0.04167629717846134
+              - -0.027592055837906297
+              delta_r_perp_error_mdeg:
+              - 15.84124794781518
+              - 5.7947390934718275
+              delta_t_perp_error_norm_mm: 0.04998234980340124
+              delta_r_perp_error_norm_mdeg: 16.867843303326286
+          mount_offset:
+            translation_error_mm: 0.24369292917474195
+            rotation_error_deg: 0.01551291298968064
+      method=joint_lm|ridge_lambda=1e-09|extrinsic=estimated:
+        method: joint_lm
+        ridge_lambda: 1.0e-09
+        extrinsic_source: estimated
+        in_sample:
+          rms_before_mm: 1.1227378528739547
+          rms_after_mm: 0.7864738313727395
+          converged: true
+        conditioning:
+          condition_number: 21.779515472936996
+          singular_value_min: 0.8139870696770455
+          singular_value_max: 17.728243978801856
+        held_out:
+          corrected_rms_mm:
+            n: 5
+            mean: 0.9002233119623332
+            std: 0.2625540618770661
+            median: 0.8987090075066204
+            min: 0.6345276108895572
+            max: 1.2885151277190996
+            p95: 1.2294214074704333
+            ci95_lo: 0.6397066785226636
+            ci95_hi: 1.2589682675947664
+          nominal_rms_mm:
+            n: 5
+            mean: 1.1255313927124735
+            std: 0.16908230177365005
+            median: 1.147357553589873
+            min: 0.9095244759529033
+            max: 1.2958905649457855
+            p95: 1.2917377544147182
+            ci95_lo: 0.9185478140359487
+            ci95_hi: 1.2938141596802517
+          improvement_mm:
+            n: 5
+            mean: 0.22530808075014028
+            std: 0.2609255809409865
+            median: 0.31343956956273655
+            min: -0.0835220505228651
+            max: 0.5128299427003158
+            p95: 0.4897002656480856
+            ci95_lo: -0.07650870701344367
+            ci95_hi: 0.5012651041742007
+          generalizes: true
+        bootstrap:
+          fk_spread_mm:
+            n: 20
+            mean: 0.2721328133355594
+            std: 0.10094199986061211
+            median: 0.25165997424754627
+            min: 0.09547702565660526
+            max: 0.4772782393859127
+            p95: 0.4558968970162333
+            ci95_lo: 0.11306015696373115
+            ci95_hi: 0.46658756820107294
+        truth:
+          fk_agreement:
+            position_rms_mm: 1.4044771420444109
+            position_max_mm: 2.076691795977485
+            position_mean_mm: 1.3765218233802332
+            rotation_rms_deg: 0.188742882261018
+            rotation_max_deg: 0.23416058981048762
+            num_configs: 80
+          per_joint:
+            joint_1:
+              delta_t_perp_error_mm:
+              - -0.5215120515819839
+              - -0.9226985724833479
+              delta_r_perp_error_mdeg:
+              - 14.966518067048513
+              - -157.76365380215537
+              delta_t_perp_error_norm_mm: 1.0598808780273647
+              delta_r_perp_error_norm_mdeg: 158.47197583187264
+            joint_2:
+              delta_t_perp_error_mm:
+              - 0.06558812694134003
+              - -0.06358776880075265
+              delta_r_perp_error_mdeg:
+              - 103.44652400771488
+              - -33.80017938290942
+              delta_t_perp_error_norm_mm: 0.09135210307776885
+              delta_r_perp_error_norm_mdeg: 108.8284680384484
+            joint_3:
+              delta_t_perp_error_mm:
+              - -0.2514934835925136
+              - -0.23824877996843974
+              delta_r_perp_error_mdeg:
+              - 44.195902066940725
+              - 0.9074606911387598
+              delta_t_perp_error_norm_mm: 0.3464266927445804
+              delta_r_perp_error_norm_mdeg: 44.20521738908857
+            joint_4:
+              delta_t_perp_error_mm:
+              - -0.07448876873561965
+              - -0.21391628044730354
+              delta_r_perp_error_mdeg:
+              - 2.8923813529573525
+              - 34.68922302605628
+              delta_t_perp_error_norm_mm: 0.22651435210193205
+              delta_r_perp_error_norm_mdeg: 34.80959729790634
+            joint_5:
+              delta_t_perp_error_mm:
+              - -0.003983789875844512
+              - 0.025537112515235875
+              delta_r_perp_error_mdeg:
+              - 16.792128429907244
+              - 22.9449074368541
+              delta_t_perp_error_norm_mm: 0.025845980294635723
+              delta_r_perp_error_norm_mdeg: 28.433155901030432
+            joint_6:
+              delta_t_perp_error_mm:
+              - -0.04168419997694084
+              - -0.02757135985506999
+              delta_r_perp_error_mdeg:
+              - 15.858520165125217
+              - 5.795511169966233
+              delta_t_perp_error_norm_mm: 0.04997751906582958
+              delta_r_perp_error_norm_mdeg: 16.884330355358674
+          mount_offset:
+            translation_error_mm: 0.24373924518586002
+            rotation_error_deg: 0.015509525830197973
+      method=joint_lm|ridge_lambda=1e-09|extrinsic=truth:
+        method: joint_lm
+        ridge_lambda: 1.0e-09
+        extrinsic_source: truth
+        in_sample:
+          rms_before_mm: 1.6967033549397872
+          rms_after_mm: 0.7864737933094396
+          converged: true
+        conditioning:
+          condition_number: 21.78253630781385
+          singular_value_min: 0.8139915628430293
+          singular_value_max: 17.730800771882425
+        held_out:
+          corrected_rms_mm:
+            n: 5
+            mean: 0.9002283239487079
+            std: 0.2625527316081945
+            median: 0.89871514595372
+            min: 0.6345245898284761
+            max: 1.2885127877925804
+            p95: 1.2294220864206167
+            ci95_lo: 0.6397051123692286
+            ci95_hi: 1.2589674371065986
+          nominal_rms_mm:
+            n: 5
+            mean: 1.716027741132234
+            std: 0.06990815567314033
+            median: 1.7392750173822886
+            min: 1.6018490817175393
+            max: 1.786542171897946
+            p95: 1.778457632543117
+            ci95_lo: 1.6122994694997448
+            ci95_hi: 1.7824999022205315
+          improvement_mm:
+            n: 5
+            mean: 0.8157994171835261
+            std: 0.24447209985121643
+            median: 0.8474043291700809
+            min: 0.4178401717470146
+            max: 1.052945202146288
+            p95: 1.035821060094843
+            ci95_lo: 0.45540444366883154
+            ci95_hi: 1.0443831311205654
+          generalizes: true
+        bootstrap:
+          fk_spread_mm:
+            n: 20
+            mean: 0.27212765314156306
+            std: 0.1009387219493006
+            median: 0.25171458131972335
+            min: 0.0954713907664839
+            max: 0.4772055921048608
+            p95: 0.455876365956476
+            ci95_lo: 0.11304727184911696
+            ci95_hi: 0.4665409790306684
+        truth:
+          fk_agreement:
+            position_rms_mm: 0.651715546385722
+            position_max_mm: 0.995591739072799
+            position_mean_mm: 0.6438118678565231
+            rotation_rms_deg: 0.031987568785470176
+            rotation_max_deg: 0.07768958640351825
+            num_configs: 80
+          per_joint:
+            joint_1:
+              delta_t_perp_error_mm:
+              - -0.6804226967263352
+              - -0.0026319229536511833
+              delta_r_perp_error_mdeg:
+              - 3.898834137479631
+              - 2.994292490273544
+              delta_t_perp_error_norm_mm: 0.6804277869390493
+              delta_r_perp_error_norm_mdeg: 4.915963298162944
+            joint_2:
+              delta_t_perp_error_mm:
+              - -0.06733479812767947
+              - -0.06339879558937736
+              delta_r_perp_error_mdeg:
+              - 12.386665940158668
+              - -33.80159399454478
+              delta_t_perp_error_norm_mm: 0.09248449773383104
+              delta_r_perp_error_norm_mdeg: 35.999684022017924
+            joint_3:
+              delta_t_perp_error_mm:
+              - -0.25119808941044497
+              - -0.23808173913771455
+              delta_r_perp_error_mdeg:
+              - 44.19449349300548
+              - 0.9045557093316781
+              delta_t_perp_error_norm_mm: 0.34609737738719815
+              delta_r_perp_error_norm_mdeg: 44.20374957098762
+            joint_4:
+              delta_t_perp_error_mm:
+              - -0.176372688175124
+              - -0.21393619752769483
+              delta_r_perp_error_mdeg:
+              - 2.800681540765518
+              - 34.68366793041949
+              delta_t_perp_error_norm_mm: 0.27726525521011175
+              delta_r_perp_error_norm_mdeg: 34.79656072373237
+            joint_5:
+              delta_t_perp_error_mm:
+              - -0.004550306451856557
+              - 0.025535555551286015
+              delta_r_perp_error_mdeg:
+              - 16.790992489889046
+              - 22.9451509640057
+              delta_t_perp_error_norm_mm: 0.02593780804383095
+              delta_r_perp_error_norm_mdeg: 28.432681575196558
+            joint_6:
+              delta_t_perp_error_mm:
+              - -0.04168293242283528
+              - -0.027575125313215026
+              delta_r_perp_error_mdeg:
+              - 15.858835353654586
+              - 5.794586865475496
+              delta_t_perp_error_norm_mm: 0.049978539308448824
+              delta_r_perp_error_norm_mdeg: 16.884309157198754
+          mount_offset:
+            translation_error_mm: 0.24370288318089933
+            rotation_error_deg: 0.015509934491581537
+      method=joint_lm|ridge_lambda=1e-06|extrinsic=estimated:
+        method: joint_lm
+        ridge_lambda: 1.0e-06
+        extrinsic_source: estimated
+        in_sample:
+          rms_before_mm: 1.1227378528739547
+          rms_after_mm: 0.7864739447895365
+          converged: true
+        conditioning:
+          condition_number: 21.779499911697197
+          singular_value_min: 0.8139876515742135
+          singular_value_max: 17.72824398558319
+        held_out:
+          corrected_rms_mm:
+            n: 5
+            mean: 0.9002236331745669
+            std: 0.2625521137387082
+            median: 0.8987090068404139
+            min: 0.6345280977932771
+            max: 1.288509759075864
+            p95: 1.2294181270669418
+            ci95_lo: 0.6397072583271521
+            ci95_hi: 1.2589639430714028
+          nominal_rms_mm:
+            n: 5
+            mean: 1.1255313927124735
+            std: 0.16908230177365005
+            median: 1.147357553589873
+            min: 0.9095244759529033
+            max: 1.2958905649457855
+            p95: 1.2917377544147182
+            ci95_lo: 0.9185478140359487
+            ci95_hi: 1.2938141596802517
+          improvement_mm:
+            n: 5
+            mean: 0.22530775953790663
+            std: 0.2609256005264276
+            median: 0.3134381536513303
+            min: -0.0835271230783492
+            max: 0.5128294557965959
+            p95: 0.489699876258351
+            ci95_lo: -0.07651273544905582
+            ci95_hi: 0.5012646660274734
+          generalizes: true
+        bootstrap:
+          fk_spread_mm:
+            n: 20
+            mean: 0.27213250600114935
+            std: 0.1009384918398004
+            median: 0.25168021896912296
+            min: 0.09547867622086946
+            max: 0.477257181137632
+            p95: 0.4558890928585011
+            ci95_lo: 0.11307077933019748
+            ci95_hi: 0.4665731369980665
+        truth:
+          fk_agreement:
+            position_rms_mm: 1.4044888657884347
+            position_max_mm: 2.0767870227969634
+            position_mean_mm: 1.376530586044169
+            rotation_rms_deg: 0.18874275961325201
+            rotation_max_deg: 0.23415847914362262
+            num_configs: 80
+          per_joint:
+            joint_1:
+              delta_t_perp_error_mm:
+              - -0.5214847912185967
+              - -0.9227261465335908
+              delta_r_perp_error_mdeg:
+              - 14.96891981522233
+              - -157.76332500888486
+              delta_t_perp_error_norm_mm: 1.0598914703728082
+              delta_r_perp_error_norm_mdeg: 158.47187535425206
+            joint_2:
+              delta_t_perp_error_mm:
+              - 0.06557704952679459
+              - -0.06356544230221554
+              delta_r_perp_error_mdeg:
+              - 103.44841042414035
+              - -33.80065217897941
+              delta_t_perp_error_norm_mm: 0.09132860931666466
+              delta_r_perp_error_norm_mdeg: 108.83040800716377
+            joint_3:
+              delta_t_perp_error_mm:
+              - -0.2514720690466554
+              - -0.23841783608931372
+              delta_r_perp_error_mdeg:
+              - 44.19782436022668
+              - 0.9050190284341134
+              delta_t_perp_error_norm_mm: 0.3465274391388317
+              delta_r_perp_error_norm_mdeg: 44.20708922355413
+            joint_4:
+              delta_t_perp_error_mm:
+              - -0.07450155270175181
+              - -0.2139265530881198
+              delta_r_perp_error_mdeg:
+              - 2.892254456870483
+              - 34.68872684157205
+              delta_t_perp_error_norm_mm: 0.22652825755551126
+              delta_r_perp_error_norm_mdeg: 34.80909228538556
+            joint_5:
+              delta_t_perp_error_mm:
+              - -0.0041788700614669655
+              - 0.02553402627970332
+              delta_r_perp_error_mdeg:
+              - 16.79046281697271
+              - 22.94520219515263
+              delta_t_perp_error_norm_mm: 0.025873721283248084
+              delta_r_perp_error_norm_mdeg: 28.43241012268535
+            joint_6:
+              delta_t_perp_error_mm:
+              - -0.04168564961627175
+              - -0.02758471088941308
+              delta_r_perp_error_mdeg:
+              - 15.858111673928247
+              - 5.79488888131235
+              delta_t_perp_error_norm_mm: 0.04998609465424441
+              delta_r_perp_error_norm_mdeg: 16.883733088672567
+          mount_offset:
+            translation_error_mm: 0.2437309874173309
+            rotation_error_deg: 0.015510100807547665
+      method=joint_lm|ridge_lambda=1e-06|extrinsic=truth:
+        method: joint_lm
+        ridge_lambda: 1.0e-06
+        extrinsic_source: truth
+        in_sample:
+          rms_before_mm: 1.6967033549397872
+          rms_after_mm: 0.7864730520403849
+          converged: true
+        conditioning:
+          condition_number: 21.78251806083728
+          singular_value_min: 0.8139922474864625
+          singular_value_max: 17.730800832255397
+        held_out:
+          corrected_rms_mm:
+            n: 5
+            mean: 0.9002220648481918
+            std: 0.26254345213849845
+            median: 0.8987082700482766
+            min: 0.6345340013082953
+            max: 1.2884895448001001
+            p95: 1.2294031691807894
+            ci95_lo: 0.6397126853155398
+            ci95_hi: 1.2589463569904447
+          nominal_rms_mm:
+            n: 5
+            mean: 1.716027741132234
+            std: 0.06990815567314033
+            median: 1.7392750173822886
+            min: 1.6018490817175393
+            max: 1.786542171897946
+            p95: 1.778457632543117
+            ci95_lo: 1.6122994694997448
+            ci95_hi: 1.7824999022205315
+          improvement_mm:
+            n: 5
+            mean: 0.8158056762840422
+            std: 0.2444635443725857
+            median: 0.8474112050755244
+            min: 0.41786341473949484
+            max: 1.0529541760015477
+            p95: 1.035826356883087
+            ci95_lo: 0.45542552378498535
+            ci95_hi: 1.0443902664423172
+          generalizes: true
+        bootstrap:
+          fk_spread_mm:
+            n: 20
+            mean: 0.2721341544414032
+            std: 0.10094026957100291
+            median: 0.25167188330361073
+            min: 0.09548603992363221
+            max: 0.4772730405979583
+            p95: 0.45589061037272566
+            ci95_lo: 0.11306738761945623
+            ci95_hi: 0.46658182548534194
+        truth:
+          fk_agreement:
+            position_rms_mm: 0.651783832337834
+            position_max_mm: 0.9956850827856358
+            position_mean_mm: 0.643881111399145
+            rotation_rms_deg: 0.03198772096259995
+            rotation_max_deg: 0.07768576524726348
+            num_configs: 80
+          per_joint:
+            joint_1:
+              delta_t_perp_error_mm:
+              - -0.6805038183628075
+              - -0.0025363676702856446
+              delta_r_perp_error_mdeg:
+              - 3.8932740561815162
+              - 2.993606197850944
+              delta_t_perp_error_norm_mm: 0.6805085451096994
+              delta_r_perp_error_norm_mdeg: 4.9111364208651
+            joint_2:
+              delta_t_perp_error_mm:
+              - -0.0673182276111654
+              - -0.06344150452452123
+              delta_r_perp_error_mdeg:
+              - 12.386225838623055
+              - -33.802477093121006
+              delta_t_perp_error_norm_mm: 0.092501720335589
+              delta_r_perp_error_norm_mdeg: 36.00036177813139
+            joint_3:
+              delta_t_perp_error_mm:
+              - -0.251265427879842
+              - -0.23764901743963845
+              delta_r_perp_error_mdeg:
+              - 44.19635310104407
+              - 0.9044150101429075
+              delta_t_perp_error_norm_mm: 0.3458487685935367
+              delta_r_perp_error_norm_mdeg: 44.20560591082017
+            joint_4:
+              delta_t_perp_error_mm:
+              - -0.1763522947926731
+              - -0.21392285317399268
+              delta_r_perp_error_mdeg:
+              - 2.8001585631169026
+              - 34.68787515345189
+              delta_t_perp_error_norm_mm: 0.27724198633818703
+              delta_r_perp_error_norm_mdeg: 34.8007122145519
+            joint_5:
+              delta_t_perp_error_mm:
+              - -0.004048015470881477
+              - 0.02553020777076365
+              delta_r_perp_error_mdeg:
+              - 16.791730894603052
+              - 22.94488215503502
+              delta_t_perp_error_norm_mm: 0.02584913805276409
+              delta_r_perp_error_norm_mdeg: 28.432900723373457
+            joint_6:
+              delta_t_perp_error_mm:
+              - -0.04169188197889444
+              - -0.02758395497711415
+              delta_r_perp_error_mdeg:
+              - 15.857877541856903
+              - 5.794962674734427
+              delta_t_perp_error_norm_mm: 0.04999087511858062
+              delta_r_perp_error_norm_mdeg: 16.883538507495835
+          mount_offset:
+            translation_error_mm: 0.24373384580554253
+            rotation_error_deg: 0.015509215787673598
+      method=joint_lm|ridge_lambda=0.001|extrinsic=estimated:
+        method: joint_lm
+        ridge_lambda: 0.001
+        extrinsic_source: estimated
+        in_sample:
+          rms_before_mm: 1.1227378528739547
+          rms_after_mm: 0.786430766193544
+          converged: true
+        conditioning:
+          condition_number: 21.76328155969147
+          singular_value_min: 0.8145953529513607
+          singular_value_max: 17.728268023496714
+        held_out:
+          corrected_rms_mm:
+            n: 5
+            mean: 0.9000855613808489
+            std: 0.2624756482802136
+            median: 0.8986922586094701
+            min: 0.634483266265563
+            max: 1.2883092562013994
+            p95: 1.2291885933022049
+            ci95_lo: 0.6396586480512452
+            ci95_hi: 1.2587489247518022
+          nominal_rms_mm:
+            n: 5
+            mean: 1.1255313927124735
+            std: 0.16908230177365005
+            median: 1.147357553589873
+            min: 0.9095244759529033
+            max: 1.2958905649457855
+            p95: 1.2917377544147182
+            ci95_lo: 0.9185478140359487
+            ci95_hi: 1.2938141596802517
+          improvement_mm:
+            n: 5
+            mean: 0.22544583133162455
+            std: 0.26079955459246523
+            median: 0.31352077266097234
+            min: -0.08318146575252428
+            max: 0.5128742873243101
+            p95: 0.4897390911267111
+            ci95_lo: -0.07618159356836691
+            ci95_hi: 0.5013066892255106
+          generalizes: true
+        bootstrap:
+          fk_spread_mm:
+            n: 20
+            mean: 0.27208672941076734
+            std: 0.1009250665248584
+            median: 0.2517021833250224
+            min: 0.09544029795585524
+            max: 0.4771552572611766
+            p95: 0.4558254649216011
+            ci95_lo: 0.11301905805014537
+            ci95_hi: 0.4664903610913888
+        truth:
+          fk_agreement:
+            position_rms_mm: 1.4044897457945378
+            position_max_mm: 2.076889544288854
+            position_mean_mm: 1.3765307688134314
+            rotation_rms_deg: 0.18874435344352242
+            rotation_max_deg: 0.23414914141657608
+            num_configs: 80
+          per_joint:
+            joint_1:
+              delta_t_perp_error_mm:
+              - -0.5212946271445087
+              - -0.9226432290624195
+              delta_r_perp_error_mdeg:
+              - 14.9569633508289
+              - -157.7441833136411
+              delta_t_perp_error_norm_mm: 1.0597257269805525
+              delta_r_perp_error_norm_mdeg: 158.45169018336674
+            joint_2:
+              delta_t_perp_error_mm:
+              - 0.06560487832908898
+              - -0.0636112416205954
+              delta_r_perp_error_mdeg:
+              - 103.53597786300939
+              - -33.883657800919366
+              delta_t_perp_error_norm_mm: 0.09138046903517369
+              delta_r_perp_error_norm_mdeg: 108.93943720260067
+            joint_3:
+              delta_t_perp_error_mm:
+              - -0.25134837353859735
+              - -0.23860227946200194
+              delta_r_perp_error_mdeg:
+              - 44.35329603690662
+              - 0.7955496727219262
+              delta_t_perp_error_norm_mm: 0.346564644251201
+              delta_r_perp_error_norm_mdeg: 44.36043021228767
+            joint_4:
+              delta_t_perp_error_mm:
+              - -0.07494575204296246
+              - -0.21389383725174685
+              delta_r_perp_error_mdeg:
+              - 2.90571162791863
+              - 34.753976946236484
+              delta_t_perp_error_norm_mm: 0.22664386019383356
+              delta_r_perp_error_norm_mdeg: 34.875235822058016
+            joint_5:
+              delta_t_perp_error_mm:
+              - -0.004343627155787888
+              - 0.025522429082393088
+              delta_r_perp_error_mdeg:
+              - 16.76254635862493
+              - 22.93976377389224
+              delta_t_perp_error_norm_mm: 0.025889408705767742
+              delta_r_perp_error_norm_mdeg: 28.411542063517576
+            joint_6:
+              delta_t_perp_error_mm:
+              - -0.04168799897989388
+              - -0.02758819622880342
+              delta_r_perp_error_mdeg:
+              - 15.843328825705182
+              - 5.794230940746905
+              delta_t_perp_error_norm_mm: 0.04998997729652012
+              delta_r_perp_error_norm_mdeg: 16.86962300924741
+          mount_offset:
+            translation_error_mm: 0.24368321165784249
+            rotation_error_deg: 0.015511405103550004
+      method=joint_lm|ridge_lambda=0.001|extrinsic=truth:
+        method: joint_lm
+        ridge_lambda: 0.001
+        extrinsic_source: truth
+        in_sample:
+          rms_before_mm: 1.6967033549397872
+          rms_after_mm: 0.7864350360975133
+          converged: true
+        conditioning:
+          condition_number: 21.766297423369384
+          singular_value_min: 0.8145999472166227
+          singular_value_max: 17.73082473217801
+        held_out:
+          corrected_rms_mm:
+            n: 5
+            mean: 0.9000903092988505
+            std: 0.2624769186141214
+            median: 0.8986712543523206
+            min: 0.6344720443178422
+            max: 1.2883311444940921
+            p95: 1.2292042194385564
+            ci95_lo: 0.6396528982974163
+            ci95_hi: 1.2587676819663243
+          nominal_rms_mm:
+            n: 5
+            mean: 1.716027741132234
+            std: 0.06990815567314033
+            median: 1.7392750173822886
+            min: 1.6018490817175393
+            max: 1.786542171897946
+            p95: 1.778457632543117
+            ci95_lo: 1.6122994694997448
+            ci95_hi: 1.7824999022205315
+          improvement_mm:
+            n: 5
+            mean: 0.8159374318333835
+            std: 0.24441143113245634
+            median: 0.8474482207714803
+            min: 0.41802181504550284
+            max: 1.0529944332687053
+            p95: 1.0358709540949036
+            ci95_lo: 0.45560419880910574
+            ci95_hi: 1.0444326936818045
+          generalizes: true
+        bootstrap:
+          fk_spread_mm:
+            n: 20
+            mean: 0.27209631379750243
+            std: 0.10092659761134579
+            median: 0.2516630303732522
+            min: 0.09542779232508332
+            max: 0.4771980819995126
+            p95: 0.4558294878203519
+            ci95_lo: 0.11303621647811003
+            ci95_hi: 0.46651378490993217
+        truth:
+          fk_agreement:
+            position_rms_mm: 0.6517000184308419
+            position_max_mm: 0.9956461507594748
+            position_mean_mm: 0.6437984388430925
+            rotation_rms_deg: 0.03201550964651796
+            rotation_max_deg: 0.07779191136282575
+            num_configs: 80
+          per_joint:
+            joint_1:
+              delta_t_perp_error_mm:
+              - -0.6803958003385598
+              - -0.002450367185918075
+              delta_r_perp_error_mdeg:
+              - 3.8820938827761147
+              - 2.9993294988955244
+              delta_t_perp_error_norm_mm: 0.6804002126819885
+              delta_r_perp_error_norm_mdeg: 4.9057752045556065
+            joint_2:
+              delta_t_perp_error_mm:
+              - -0.06722482952166207
+              - -0.06342461572381752
+              delta_r_perp_error_mdeg:
+              - 12.508730518905706
+              - -33.88500373620264
+              delta_t_perp_error_norm_mm: 0.09242218123335139
+              delta_r_perp_error_norm_mdeg: 36.12010267700066
+            joint_3:
+              delta_t_perp_error_mm:
+              - -0.2511246822964925
+              - -0.23770934931525411
+              delta_r_perp_error_mdeg:
+              - 44.38787573113988
+              - 0.7851952641042415
+              delta_t_perp_error_norm_mm: 0.34578799980681196
+              delta_r_perp_error_norm_mdeg: 44.39482000781046
+            joint_4:
+              delta_t_perp_error_mm:
+              - -0.17679170467207325
+              - -0.21389527152532523
+              delta_r_perp_error_mdeg:
+              - 2.805605797988785
+              - 34.75527351717788
+              delta_t_perp_error_norm_mm: 0.2775004396784808
+              delta_r_perp_error_norm_mdeg: 34.868330346426895
+            joint_5:
+              delta_t_perp_error_mm:
+              - -0.004145658895215962
+              - 0.025548696411959865
+              delta_r_perp_error_mdeg:
+              - 16.756971069028133
+              - 22.938157459739
+              delta_t_perp_error_norm_mm: 0.025882858729784353
+              delta_r_perp_error_norm_mdeg: 28.406955962510764
+            joint_6:
+              delta_t_perp_error_mm:
+              - -0.0416676784738717
+              - -0.027582596503240367
+              delta_r_perp_error_mdeg:
+              - 15.841218888641418
+              - 5.795370977746603
+              delta_t_perp_error_norm_mm: 0.04996994155752554
+              delta_r_perp_error_norm_mdeg: 16.868033099551273
+          mount_offset:
+            translation_error_mm: 0.24369223868648113
+            rotation_error_deg: 0.015512347036804356
+spec:
+  run_id: sim_wp4-s004-ee5cd24d86
+  sweep: sim_wp4
+  mode: sim
+  work_packages:
+  - wp3
+  - wp4
+  seed: 4
+  collection:
+    calibration_type: eye_to_hand
+    perturbation_file: ''
+    perturbation_sigma_t_mm: 0.0
+    perturbation_sigma_r_deg: 0.1
+    image_noise_stddev: 0.0
+    camera_width: 1280
+    camera_height: 720
+    num_samples: 80
+    num_candidates: 800
+    touch_noise_std_m: 0.0
+    num_poses: 40
+    ar_model: mk5
+  analysis:
+    kfold: 5
+    bootstrap: 200
+    bootstrap_seed: 0
+    kfold_seed: 0
+    bootstrap_wp4: 20
+  variants:
+    wp3:
+      method:
+      - PARK
+    wp4:
+      method:
+      - sequential
+      - joint_trf
+      - joint_lm
+      ridge_lambda:
+      - 1.0e-09
+      - 1.0e-06
+      - 0.001
