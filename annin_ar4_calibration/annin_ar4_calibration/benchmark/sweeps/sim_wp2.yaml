@@ -1,0 +1,27 @@
+# WP2 (TCP pivot) in simulation.
+#
+# `touch_noise_std_m` is to simulate the human touch error
+#
+# SIZE: 4 noise levels x 4 touch counts x 5 seeds = 80 runs, about 8 hours.
+name: sim_wp2
+mode: sim
+work_packages: [wp2]
+seeds: [1, 2, 3, 4, 5]
+
+fixed:
+  calibration_type: eye_to_hand   # irrelevant to WP2, but fixes the rig layout
+  perturbation_sigma_t_mm: 1.0
+  perturbation_sigma_r_deg: 0.1
+
+grid:
+  # 0 is the noiseless control
+  touch_noise_std_m: [0.0, 0.0005, 0.001, 0.002]
+  num_poses: [10, 20, 30, 40]
+
+variants:
+  wp2:
+    ransac: [true, false]
+
+analysis:
+  kfold: 5
+  bootstrap: 200

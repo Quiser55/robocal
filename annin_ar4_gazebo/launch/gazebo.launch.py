@@ -1,12 +1,12 @@
 import os
-import tempfile
+import sys
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.actions import IncludeLaunchDescription
+from launch.actions import SetEnvironmentVariable
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitution import Substitution
 from launch.substitutions import (
     Command,
     FindExecutable,
@@ -16,35 +16,22 @@ from launch.substitutions import (
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 
+sys.path.insert(0, os.path.dirname(__file__))
 
-class ControllerConfigSubstitution(Substitution):
-    """Substitution that fills out tf_prefix in controllers.yaml."""
+from sim_launch_common import ControllerConfigSubstitution, gz_resource_path_value  # noqa: E402
 
-    def __init__(self, file_path: Substitution, tf_prefix: Substitution):
-        super().__init__()
-        self._file_path = file_path
-        self._tf_prefix = tf_prefix
-
-    def perform(self, context):
-        # Evaluate the file path and namespace substitutions
-        file_path_val = self._file_path.perform(context)
-        tf_prefix_val = self._tf_prefix.perform(context)
-
-        with open(file_path_val, "r") as f:
-            content = f.read()
-
-        content = content.replace('$(var tf_prefix)', tf_prefix_val)
-
-        temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".yaml")
-        temp_file.write(content.encode("utf-8"))
-        temp_file.close()
-        return temp_file.name
+# This launch file only ever runs against Gazebo, so sim time is not optional.
+# Without it robot_state_publisher stamps TF with the wall clock while
+# gz_ros2_control publishes /joint_states at sim time, and every TF lookup
+# either fails or extrapolates wildly.
+USE_SIM_TIME = {'use_sim_time': True}
 
 
 def generate_launch_description():
     ar_model_arg = DeclareLaunchArgument("ar_model",
                                          default_value="mk5",
-                                         choices=["mk1", "mk2", "mk3", "mk4", "mk5"],
+                                         choices=["mk1", "mk2",
+                                                  "mk3", "mk4", "mk5"],
                                          description="Model of AR4")
     ar_model_config = LaunchConfiguration("ar_model")
     tf_prefix_arg = DeclareLaunchArgument("tf_prefix",
@@ -78,11 +65,15 @@ def generate_launch_description():
     ])
     robot_description = {"robot_description": robot_description_content}
 
+    # gz_ros2_control does not read the spawned SDF: it blocks until the
+    # controller_manager's ResourceManager initializes from the transient-local
+    # /robot_description topic published here. So this node is a prerequisite
+    # for the controllers coming up, not just a TF publisher.
     robot_state_publisher_node = Node(
         package="robot_state_publisher",
         executable="robot_state_publisher",
         output="both",
-        parameters=[robot_description],
+        parameters=[robot_description, USE_SIM_TIME],
     )
 
     joint_state_broadcaster_spawner = Node(
@@ -90,8 +81,12 @@ def generate_launch_description():
         executable="spawner",
         arguments=[
             "joint_state_broadcaster", "-c", "/controller_manager",
-            "--controller-manager-timeout", "60"
+            # --switch-timeout (default 5 s) is separate from the manager
+            # timeout: the first activation races gz's rendering startup,
+            # and without it joint_state_broadcaster silently stays inactive.
+            "--controller-manager-timeout", "60", "--switch-timeout", "60"
         ],
+        parameters=[USE_SIM_TIME],
     )
 
     # There may be other controllers of the joints, but this is the initially-started one
@@ -100,8 +95,12 @@ def generate_launch_description():
         executable="spawner",
         arguments=[
             "joint_trajectory_controller", "-c", "/controller_manager",
-            "--controller-manager-timeout", "60"
+            # --switch-timeout (default 5 s) is separate from the manager
+            # timeout: the first activation races gz's rendering startup,
+            # and without it joint_state_broadcaster silently stays inactive.
+            "--controller-manager-timeout", "60", "--switch-timeout", "60"
         ],
+        parameters=[USE_SIM_TIME],
     )
 
     gripper_joint_controller_spawner_started = Node(
@@ -109,8 +108,12 @@ def generate_launch_description():
         executable="spawner",
         arguments=[
             "gripper_controller", "-c", "/controller_manager",
-            "--controller-manager-timeout", "60"
+            # --switch-timeout (default 5 s) is separate from the manager
+            # timeout: the first activation races gz's rendering startup,
+            # and without it joint_state_broadcaster silently stays inactive.
+            "--controller-manager-timeout", "60", "--switch-timeout", "60"
         ],
+        parameters=[USE_SIM_TIME],
     )
 
     # Gazebo nodes
@@ -121,7 +124,8 @@ def generate_launch_description():
     gazebo_bridge = Node(
         package='ros_gz_bridge',
         executable='parameter_bridge',
-        arguments=["/clock@rosgraph_msgs/msg/Clock[ignition.msgs.Clock"],
+        arguments=["/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock"],
+        parameters=[USE_SIM_TIME],
         output='screen')
 
     gazebo = IncludeLaunchDescription(
@@ -138,10 +142,14 @@ def generate_launch_description():
         package="ros_gz_sim",
         executable="create",
         arguments=["-name", ar_model_config, "-topic", "robot_description"],
+        parameters=[USE_SIM_TIME],
         output="screen",
     )
 
     return LaunchDescription([
+        # Must precede gz starting, or package:// mesh URIs resolve to nothing.
+        SetEnvironmentVariable('GZ_SIM_RESOURCE_PATH',
+                               gz_resource_path_value()),
         ar_model_arg,
         tf_prefix_arg,
         gazebo_bridge,

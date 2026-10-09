@@ -37,7 +37,7 @@ use_smoothing: true
 # NOTE: If a different node in your system is responsible for the "primary" planning scene instance (e.g. the MoveGroup node),
 # then is_primary_planning_scene_monitor needs to be set to false.
 is_primary_planning_scene_monitor: false
-check_octomap_collisions: false # Check collision against the octomap (if a 3D sensor plugin is available)
+check_octomap_collisions: true # Check collision against the octomap (populated by the camera-fed DepthImageOctomapUpdater; see config/sensors_3d.yaml)
 
 ## MoveIt properties
 move_group_name: ar_manipulator # Often 'manipulator' or 'arm'
@@ -59,7 +59,7 @@ status_topic: ~/status # Publish status to this topic
 command_out_topic: /joint_trajectory_controller/joint_trajectory # Publish outgoing commands here
 
 ## Collision checking for the entire robot body
-check_collisions: false # Check collisions?
+check_collisions: true # Check collisions? (enables real-time avoidance of octomap + planning-scene objects while servoing)
 collision_check_rate: 10.0 # [Hz] Collision-checking can easily bog down a CPU if done too often.
 self_collision_proximity_threshold: 0.01 # Start decelerating when a self-collision is this far [m]
 scene_collision_proximity_threshold: 0.02 # Start decelerating when a scene collision is this far [m]

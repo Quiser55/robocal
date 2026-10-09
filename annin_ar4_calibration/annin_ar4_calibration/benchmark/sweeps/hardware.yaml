@@ -1,0 +1,30 @@
+#
+#   ros2 launch annin_ar4_driver driver.launch.py ar_model:=mk5 (must mach actual robot model)
+#   ros2 launch annin_ar4_moveit_config moveit.launch.py
+#   ros2 launch realsense2_camera rs_launch.py
+#   ros2 run annin_ar4_calibration benchmark_run --mode hardware --sweep hardware.yaml
+#
+# There is no pivot run (WP2) here because on hardware the samples have to be collected manually with tcp.launch.py
+# Only truth-free metrics are reported as the ground truth is not known on hardware.
+
+name: hardware
+mode: hardware
+work_packages: [wp3, wp4]
+seeds: [1, 2, 3]
+
+fixed:
+  calibration_type: eye_in_hand   # must match how the camera is actually mounted
+  num_samples: 100
+  num_candidates: 400
+
+variants:
+  wp3:
+    method: [TSAI, PARK, HORAUD, ANDREFF, DANIILIDIS]
+  wp4:
+    method: [sequential, joint_trf]
+    ridge_lambda: [1.0e-6, 1.0e-3]
+
+analysis:
+  kfold: 5
+  bootstrap: 200
+  bootstrap_wp4: 20

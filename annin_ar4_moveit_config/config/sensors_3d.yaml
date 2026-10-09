@@ -1,0 +1,35 @@
+# 3D sensor configuration for MoveIt's occupancy_map_monitor.
+#
+# Feeds the Intel RealSense depth stream into a live octomap in the planning
+# scene so move_group (OMPL) and moveit_servo automatically avoid obstacles the
+# camera sees. Loaded into the move_group node by moveit.launch.py when launched
+# with octomap:=True.
+#
+# DepthImageOctomapUpdater (not the point-cloud updater) is used on purpose: it
+# renders the robot model from the camera's viewpoint and masks those pixels, so
+# a fixed (eye-to-hand) camera that sees the arm does not turn the arm into a
+# phantom obstacle. The camera pose in base_link comes from the hand-eye
+# calibration TF (base_link -> camera_color_optical_frame).
+#
+# Tuned for the RealSense D405, a short-range module (~7 cm min, ~0.5 m ideal,
+# ~1 m max). Mount it ~0.3-0.5 m from the workspace. For a longer-range model
+# (D435/D455) widen near/far/max_range.
+sensors:
+  - depth_camera
+depth_camera:
+  sensor_plugin: occupancy_map_monitor/DepthImageOctomapUpdater
+  # Aligned depth is registered to the color optical frame, which the hand-eye
+  # calibration owns; RealSense is launched with publish_tf:=false to avoid a
+  # duplicate-parent TF conflict on camera_color_optical_frame.
+  image_topic: /camera/camera/aligned_depth_to_color/image_raw
+  queue_size: 5
+  near_clipping_plane_distance: 0.07   # D405 min range ~7 cm
+  far_clipping_plane_distance: 1.0     # D405 usable range ~0.5 m ideal, ~1 m max
+  shadow_threshold: 0.2
+  padding_scale: 2.0
+  padding_offset: 0.03
+  max_update_rate: 1.0
+  filtered_cloud_topic: filtered_cloud
+octomap_frame: base_link
+octomap_resolution: 0.01   # D405 is short-range/high-precision; finer cells are affordable
+max_range: 1.0

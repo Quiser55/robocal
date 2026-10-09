@@ -1,0 +1,100 @@
+target_detector:
+  ros__parameters:
+    image_topic: /camera/camera/color/image_raw
+    camera_info_topic: /camera/camera/color/camera_info
+    aruco_dictionary: DICT_5X5_250
+    charuco.squares_x: 5
+    charuco.squares_y: 7
+    charuco.square_length_m: 0.035   # measure the actually-printed board - see README
+    charuco.marker_length_m: 0.026
+    charuco.min_charuco_corners: 6
+    aruco.marker_id: 1
+    aruco.marker_length_m: 0.05
+    target_frame: calibration_target
+    publish_debug_image: true
+
+kinematic_collector:
+  ros__parameters:
+    base_frame: base_link
+    tool_frame: ee_link
+    camera_optical_frame: camera_color_optical_frame
+    target_frame: calibration_target
+    sample_file: ""
+    tf_lookup_timeout_sec: 1.0
+    joint_states_topic: /joint_states
+    arm_joint_names: [joint_1, joint_2, joint_3, joint_4, joint_5, joint_6]
+    num_candidate_configs: 200   # attempted joint-space configs per run_auto_sequence call
+    min_samples: 100             # usable (visible) samples to collect before stopping
+    min_joint_range_deg: 30.0    # per-joint observed-range gate - see README notes
+    # Shrink each joint's sampled range away from its hard limits. This must be
+    # bigger than the arm's overshoot, not just a token gap: at the full-speed
+    # trajectories the benchmark runs, measured overshoot past the commanded
+    # target was 5.0 deg (joint_5) and 11.0 deg (joint_6), so a 5 deg margin put
+    # the arm exactly on its limit - and a joint a fraction of a degree outside
+    # makes move_group refuse every subsequent plan. 15 deg costs almost nothing:
+    # the observed per-joint range only drops from 121..349 deg to 102..329, all
+    # still far above min_joint_range_deg.
+    joint_margin_deg: 15.0
+    settle_time_sec: 0.5
+
+    # Visibility gating. Candidates are rejected before being commanded unless
+    # the board is predicted to land in frame - a uniform full-range joint draw
+    # points an eye-in-hand camera at the target only ~2% of the time, and each
+    # miss otherwise costs a full robot motion. See core/joint_sampling.py.
+    camera_info_topic: /camera/camera/color/camera_info
+    target_size_m: [0.175, 0.245]        # outer rectangle of the 5x7, 35 mm ChArUco board
+    target_origin_at_center: false       # OpenCV puts the board origin at a corner
+    visibility_min_range_m: 0.10
+    visibility_max_range_m: 1.20
+    visibility_max_view_angle_deg: 65.0  # reject near-edge-on views, where corners vanish
+    visibility_edge_margin_px: 20.0
+    visibility_min_corner_fraction: 0.75 # 3 of 4 board corners must be in frame
+    visibility_max_draws: 200000         # rejection-sampling budget (cheap: batched FK)
+    # The gz->ROS camera bridge only starts publishing once subscribed to, and a
+    # detection must be *current* rather than whatever is left in the TF buffer
+    # from a previous work package's detector, so both are waited for.
+    visibility_setup_timeout_sec: 60.0
+    # WP3's result. In WP4 nothing broadcasts the calibrated camera frame -
+    # the hand-eye node that does belongs to the previous launch - so the
+    # extrinsic is read from here rather than looked up on TF. Empty uses the
+    # same default path kinematic_calibration reads.
+    hand_eye_result_file: ""
+
+    # Circuit breaker. A joint parked outside its limits makes move_group reject
+    # every plan at the start-state check, and a refused plan returns instantly -
+    # so without this the whole candidate list burns against that state in
+    # seconds. Recover by commanding the trajectory controller directly (MoveIt
+    # cannot plan its way out of an out-of-bounds start state), then give up.
+    max_consecutive_motion_failures: 10
+    max_recovery_attempts: 2
+    recovery_action_name: /joint_trajectory_controller/follow_joint_trajectory
+    recovery_duration_sec: 5.0
+    recovery_settle_timeout_sec: 20.0   # extra time for the arm to actually get back in bounds
+    max_sequence_duration_sec: 0.0       # 0 disables the wall-clock budget
+
+kinematic_calibration:
+  ros__parameters:
+    base_frame: base_link
+    tool_frame: ee_link
+    arm_joint_names: [joint_1, joint_2, joint_3, joint_4, joint_5, joint_6]
+    hand_eye_result_file: ""
+    sample_file: ""
+    result_file: ""
+    min_samples: 80
+    min_joint_range_deg: 30.0
+    method: both            # sequential | joint | both
+    ridge_lambda: 1.0e-6
+    bounds.translation_m: 0.01
+    bounds.rotation_deg: 3.0
+    run_lm_diagnostic: true  # also run scipy 'lm' as a secondary, non-unique diagnostic
+
+kinematic_visualization:
+  ros__parameters:
+    base_frame: base_link
+    tool_frame: ee_link
+    arm_joint_names: [joint_1, joint_2, joint_3, joint_4, joint_5, joint_6]
+    sample_file: ""
+    result_file: ""
+    hand_eye_result_file: ""
+    joint_states_topic: /joint_states
+    publish_rate_hz: 1.0

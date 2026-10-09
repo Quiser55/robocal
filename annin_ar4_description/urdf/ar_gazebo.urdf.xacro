@@ -4,10 +4,26 @@
   <xacro:include filename="$(find annin_ar4_description)/urdf/ar_gripper_macro.xacro" />
   <xacro:include filename="$(find annin_ar4_description)/urdf/ar.ros2_control.xacro" />
   <xacro:include filename="$(find annin_ar4_description)/urdf/ar_gripper.ros2_control.xacro" />
+  <xacro:include filename="$(find annin_ar4_description)/urdf/calibration_rig_macro.xacro" />
 
   <xacro:arg name="simulation_controllers" default="" />
   <xacro:arg name="tf_prefix" default="" />
   <xacro:arg name="namespace" default="" />
+
+  <!--
+    Calibration rig (camera + ChArUco board + TCP tool). "none" keeps this file
+    byte-identical in effect to what plain gazebo.launch.py produced before, so
+    that path is unaffected; calibration_sim.launch.py sets it to the
+    calibration_type being run.
+  -->
+  <xacro:arg name="mount_mode" default="none" />
+  <xacro:arg name="camera_width" default="1280" />
+  <xacro:arg name="camera_height" default="720" />
+  <xacro:arg name="camera_hfov" default="1.2" />
+  <xacro:arg name="camera_rate" default="15.0" />
+  <xacro:arg name="image_noise_stddev" default="0.0" />
+  <xacro:arg name="enable_depth" default="false" />
+  <xacro:arg name="tool_length" default="0.15" />
 
   <link name="world" />
   <xacro:ar_robot
@@ -17,10 +33,24 @@
   >
     <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:ar_robot>
-  <xacro:ar_gripper 
+  <xacro:ar_gripper
     tf_prefix="$(arg tf_prefix)"
     parent="$(arg tf_prefix)ee_link"
   />
+
+  <xacro:unless value="${'$(arg mount_mode)' == 'none'}">
+    <xacro:calibration_rig
+      tf_prefix="$(arg tf_prefix)"
+      mount_mode="$(arg mount_mode)"
+      camera_width="$(arg camera_width)"
+      camera_height="$(arg camera_height)"
+      camera_hfov="$(arg camera_hfov)"
+      camera_rate="$(arg camera_rate)"
+      image_noise_stddev="$(arg image_noise_stddev)"
+      enable_depth="$(arg enable_depth)"
+      tool_length="$(arg tool_length)"
+    />
+  </xacro:unless>
 
   <xacro:ar_ros2_control
     ar_model="$(arg ar_model)"

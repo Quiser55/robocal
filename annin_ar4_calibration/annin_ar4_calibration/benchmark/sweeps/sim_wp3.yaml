@@ -1,0 +1,30 @@
+# WP3 (hand-eye) in simulation.
+#
+# SIZE: 3 noise x 2 mountings x 2 sample counts x 2 resolutions x 5 seeds = 120 runs, about 12 hours
+name: sim_wp3
+mode: sim
+work_packages: [wp3]
+seeds: [1, 2, 3, 4, 5]
+
+fixed:
+  perturbation_sigma_t_mm: 1.0
+  perturbation_sigma_r_deg: 0.1
+  num_candidates: 60
+
+grid:
+  image_noise_stddev: [0.0, 0.002, 0.005]
+  calibration_type: [eye_in_hand, eye_to_hand]
+  num_samples: [10, 40]
+  # Coupled axis (leading underscore): width and height move together, so the
+  # grid cannot expand to a nonsense 640x720.
+  _resolution:
+    - {camera_width: 640, camera_height: 480}
+    - {camera_width: 1280, camera_height: 720}
+
+variants:
+  wp3:
+    method: [TSAI, PARK, HORAUD, ANDREFF, DANIILIDIS]
+
+analysis:
+  kfold: 5
+  bootstrap: 200

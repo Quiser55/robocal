@@ -1,0 +1,42 @@
+# WP4 (kinematic identification) in simulation - the primary sweep.
+#
+#
+# `perturbation_sigma_t_mm: 0.0` is the control run
+#
+# SIZE: 4 perturbations x 2 mountings x 3 sample counts x 5 seeds = 120 runs,
+# each collecting WP3 *and* WP4. At roughly 10 min per work package that is
+# about 40 hours 
+#
+name: sim_wp4
+mode: sim
+work_packages: [wp3, wp4]
+seeds: [1, 2, 3, 4, 5]
+
+fixed:
+  image_noise_stddev: 0.0
+  camera_width: 1280
+  camera_height: 720
+  perturbation_sigma_r_deg: 0.1
+  num_candidates: 800
+
+grid:
+  # Stay under ~2 mm: the solver's default bounds are 10 mm / 3 deg, and a
+  # perturbation large enough to be clipped makes the comparison meaningless.
+  perturbation_sigma_t_mm: [0.0, 0.5, 1.0, 2.0]
+  calibration_type: [eye_in_hand, eye_to_hand]
+  num_samples: [40, 80, 150]
+
+variants:
+  wp3:
+    method: [PARK]
+  wp4:
+    method: [sequential, joint_trf, joint_lm]
+    ridge_lambda: [1.0e-9, 1.0e-6, 1.0e-3]
+
+analysis:
+  kfold: 5
+  # WP4 solves are seconds each, and cross-validation already multiplies that
+  # by folds x variants x two extrinsic sources. Bootstrapping is capped
+  # separately so a full sweep stays finishable overnight.
+  bootstrap: 200
+  bootstrap_wp4: 20

@@ -1,0 +1,48 @@
+target_detector:
+  ros__parameters:
+    image_topic: /camera/camera/color/image_raw
+    camera_info_topic: /camera/camera/color/camera_info
+    aruco_dictionary: DICT_5X5_250
+    charuco.squares_x: 5
+    charuco.squares_y: 7
+    charuco.square_length_m: 0.035   # measure the actually-printed board - see README
+    charuco.marker_length_m: 0.026
+    charuco.min_charuco_corners: 6
+    aruco.marker_id: 1
+    aruco.marker_length_m: 0.05
+    target_frame: calibration_target
+    publish_debug_image: true
+
+hand_eye_collector:
+  ros__parameters:
+    base_frame: base_link
+    tool_frame: ee_link
+    camera_optical_frame: camera_color_optical_frame
+    target_frame: calibration_target
+    sample_file: ""
+    tf_lookup_timeout_sec: 1.0
+    arm_joint_names: [joint_1, joint_2, joint_3, joint_4, joint_5, joint_6]
+    num_candidate_poses: 20
+    min_samples: 10
+    max_translation_m: 0.03
+    max_orientation_deg: 35.0
+    settle_time_sec: 0.5
+
+hand_eye_calibration:
+  ros__parameters:
+    base_frame: base_link
+    tool_frame: ee_link
+    camera_optical_frame: camera_color_optical_frame
+    target_frame: calibration_target
+    hand_eye_method: PARK
+    min_samples: 10
+    sample_file: ""
+    result_file: ""
+
+hand_eye_visualization:
+  ros__parameters:
+    base_frame: base_link
+    tool_frame: ee_link
+    sample_file: ""
+    result_file: ""
+    publish_rate_hz: 1.0
